@@ -121,7 +121,7 @@ function save_my_custom_form2() {
 
                     if ($check) {
 
-                        echo "<script>alert('Your registration is done successfully. Now you can login !'); window.location.href = '" . site_url('/wp-login.php') . "';</script>";
+                        echo "<script>alert('Your registration is done successfully. Now you can login !'); window.location.href = '" . site_url('/loginform.php') . "';</script>";
                         exit;
 
                     } else {
