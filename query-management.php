@@ -14,6 +14,7 @@ function enqueue_your_files() {
 	wp_enqueue_style('main-stylesheet', get_template_directory_uri() . "/plugins/style.css");
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_your_files' );
+
 // DATABASE 
 function create_table_for_registeration_on_activation() {
     global $wpdb;
@@ -37,107 +38,34 @@ function create_table_for_registeration_on_activation() {
 
 register_activation_hook(__FILE__, 'create_table_for_registeration_on_activation');
 
-function registeration_shortcode() {
-    ?>
+function create_table_for_user_messages() {
+    global $wpdb;
 
-        <form id="myRegisterationForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-                <input type="hidden" name="action" value="<?php echo esc_attr( 'save_my_custom_form2' ); ?>" />
-                                <div class="employee-part">    
-                                <label for="name" style="color: #000; font-weight: 600; ">Name:</label>
-                                <br>    
-                                <input type="text" placeholder="Enter your Name" style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" name="name" id="iname" required/>  
+    $table_for_user = $wpdb->prefix . 'user_message';
 
-                                <br>    
-                                <br>   
-                                <label for="a1" style="color: #000; font-weight: 600; margin-top: 5px; border-radius: 8px; padding: 5px 10px;">Contact Number:</label>  
-                                <br>  
-                            
-                                <input type="text" placeholder="Enter your valid Phone Number" id="a1" required style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" name="phone" />
-                            <br>   
-                            <br> 
-                            <label for="e1" style="color: #000; font-weight: 600;  margin-top: 5px; border-radius: 8px; padding: 5px 10px;">Email:</label>
-                            <br>
-                            
-                            <input type="int" placeholder="Enter your valid Email" id="e1" required style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" name="email" />
-                            <br>
-                            <br> 
-                            <label for="b2" style="color: #000; font-weight: 600;  margin-top: 5px; border-radius: 8px; padding: 5px 10px;">Password:</label>
-                            <br>
-                            
-                            <input type="password" placeholder="Enter your valid Password" id="b2" required style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" name="password" />
-                            <br>
-                            <br> 
-                            <label for="b3" style="color: #000; font-weight: 600;  margin-top: 5px; border-radius: 8px; padding: 5px 10px;">Confirm Password:</label>
-                            <br>
-                        
-                            <input type="password" placeholder="Enter your valid Password" id="b3" required style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" name="confirmpw" />
-                            <br>
-                            <br> 
-                        
-                            <input type="submit" name="registerbtn" value="Register" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
-                            <br>
-                        </div>  
-        </form>
-    <?php   
+    $sql = "CREATE TABLE $table_for_user (
+        id int(11) NOT NULL AUTO_INCREMENT,
+        name varchar(50) NOT NULL,
+        message_content TEXT,
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );";
+
+    $wpdb->query($sql);
 }
+register_activation_hook(__FILE__, 'create_table_for_user_messages');
 
-add_shortcode('my_registeration_shortcode', 'registeration_shortcode');
+function create_table_for_repies() {
+    global $wpdb;
 
+    $talbe_for_hr = $wpdb->prefix . 'hr_message';
 
-//Inserting data into table For registeration form
-function save_my_custom_form2() {
-	global $wpdb;
-    $table_name = $wpdb->prefix . 'registeration';
-
-	$name = $_POST['name'];
-    $phone = $_POST['phone'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $confirmpw = $_POST['confirmpw'];
-
-    // email already exists or not
-    $existing_email = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE email = %s", $email));
-
-    if ($existing_email > 0) {
-        
-        echo "<script>alert('Email already registered, try again !'); window.location.href = '" . site_url('/registerationform') . "';</script>";
-        exit;
-        
-    } else {
-
-        if (password_verify($confirmpw, $password)) {
-
-                // Passwords match, proceed with insertion
-            $check = $wpdb->insert(
-                        $table_name,
-                    $data = array(
-                        'name' => $name,
-                        'phone' => $phone,
-                        'email'    => $email,
-                        'password' => $password,
-                    ),
-                    array( '%s', '%s', '%s', '%s' )
-                    );
-
-                    if ($check) {
-
-                        echo "<script>alert('Your registration is done successfully. Now you can login !'); window.location.href = '" . site_url('/wp-login.php') . "';</script>";
-                        exit;
-
-                    } else {
-
-                        echo "<script>alert('Data not inserted: " . $wpdb->last_error . "')</script>";
-                        $wpdb->print_error();
-                    }        
-            
-        } else {
-            
-            echo "<script>alert('Passwords do not match, try again !'); window.location.href = '" . site_url('/registerationform') . "';</script>";
-            exit;
-}}}
-
-add_action( 'admin_post_nopriv_save_my_custom_form2', 'save_my_custom_form2' );
-add_action( 'admin_post_save_my_custom_form2', 'save_my_custom_form2' );
+    $sql = "CREATE TABLE $talbe_for_hr (
+        id int(11) NOT NULL AUTO_INCREMENT,
+        name varchar(50) NOT NULL,
+        reply_content TEXT,
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );";
+}
 
 
 // Wordpress login page redirection
