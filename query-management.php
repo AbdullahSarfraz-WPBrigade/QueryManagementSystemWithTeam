@@ -8,12 +8,14 @@ Author URI: http://querymanagement.local/
 */
 
 
-//css enqueuing
-function enqueue_your_files() {
-	// css
-	wp_enqueue_style('main-stylesheet', get_template_directory_uri() . "/plugins/style.css");
+// Define a function to enqueue your CSS file
+function my_plugin_enqueue_styles() {
+    // Enqueue your CSS file
+    wp_enqueue_style('my-plugin-css', plugins_url('/style.css', __FILE__));
 }
-add_action( 'wp_enqueue_scripts', 'enqueue_your_files' );
+
+// Hook the function to the appropriate action
+add_action('wp_enqueue_scripts', 'my_plugin_enqueue_styles');
 
 // DATABASE 
 function create_table_for_registeration_on_activation() {

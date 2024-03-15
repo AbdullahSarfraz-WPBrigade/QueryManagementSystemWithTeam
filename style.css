@@ -1,0 +1,58 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.full-page-background {
+    background-image: url('./assets/bgimg.jpg'); /* Adjust the path to your background image */
+    background-size: cover;
+    background-position: center;
+    width: 100vw; /* 100% of viewport width */
+    height: 100vh; /* 100% of viewport height */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Ensure it's behind other content */
+}
+
+.login-container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    background-size: cover;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    color: #2a0d0d;
+}
+
+.description {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 2;
+    color: #333;
+    margin-bottom: 20px;
+    max-width: 10px;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    
+}
+
+button {
+    background-color: #007bff; /* Blue color, adjust as needed */
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+}
+
