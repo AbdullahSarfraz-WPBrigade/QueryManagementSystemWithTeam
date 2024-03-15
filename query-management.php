@@ -38,36 +38,23 @@ function create_table_for_registeration_on_activation() {
     $wpdb->query($sql);
 }
 
-register_activation_hook(__FILE__, 'create_table_for_registeration_on_activation');
+function landing_shortcode() {
+    ?>
+<div class="full-page-background"></div>
+<div class="login-container">
+    <h1>Welcome to Employee Query Management System</h1>
+    <p  class= "discription">The Employee Query Management System plugin is a robust solution designed to efficiently handle employee inquiries within your organization. This plugin provides an intuitive interface for employees to submit queries and view their status, while administrators can easily prioritize, resolve, and ensure timely feedback on queries. A centralized dashboard provides an overview of all queries, their statuses, comprehensive analytics and reporting features. Also it allows HR to generate and view reports based on parameters such as query category, date range, or employee name.
+    Employee Query Management System plugin simplifies the handling of employee inquiries, leading to improved efficiency and employee satisfaction.
+    </p>
+    <h3>Click below to Login</h3>
+    <button id="login-button">Login</button>
+</div>
 
-function create_table_for_user_messages() {
-    global $wpdb;
 
-    $table_for_user = $wpdb->prefix . 'user_message';
-
-    $sql = "CREATE TABLE $table_for_user (
-        id int(11) NOT NULL AUTO_INCREMENT,
-        name varchar(50) NOT NULL,
-        message_content TEXT,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );";
-
-    $wpdb->query($sql);
+<?php
 }
-register_activation_hook(__FILE__, 'create_table_for_user_messages');
 
-function create_table_for_repies() {
-    global $wpdb;
-
-    $talbe_for_hr = $wpdb->prefix . 'hr_message';
-
-    $sql = "CREATE TABLE $talbe_for_hr (
-        id int(11) NOT NULL AUTO_INCREMENT,
-        name varchar(50) NOT NULL,
-        reply_content TEXT,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );";
-}
+add_shortcode('landing_shortcode', 'landing_shortcode');
 
 
 // Wordpress login page redirection
