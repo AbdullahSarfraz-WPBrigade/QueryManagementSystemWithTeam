@@ -47,11 +47,22 @@ function landing_shortcode() {
     Employee Query Management System plugin simplifies the handling of employee inquiries, leading to improved efficiency and employee satisfaction.
     </p>
     <h3>Click below to Login</h3>
-    <button id="login-button">Login</button>
+
+
+    <form method="post">
+        <button type="submit" name="loginlandingpage">Login</button>
+    </form>
 </div>
 
 
 <?php
+
+    if (isset($_POST['loginlandingpage']) ) {
+        wp_redirect(home_url('/wp-login.php'));
+        exit();
+    }
+
+
 }
 
 add_shortcode('landing_shortcode', 'landing_shortcode');
