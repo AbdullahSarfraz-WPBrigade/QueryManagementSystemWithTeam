@@ -3,7 +3,7 @@
 Plugin Name: Query Management System
 Description: This plugin will help to create the essential tables in database and add functionality to register and login users and showing them the data.
 Version: 1.0
-Author:  Team of four: (Abdullah Sarfraz, Ruqyya, Ahmad)
+Author:  (Abdullah Sarfraz, Ruqyya, Ahmad)
 Author URI: http://querymanagement.local/
 */
 
@@ -17,26 +17,7 @@ function my_plugin_enqueue_styles() {
 // Hook the function to the appropriate action
 add_action('wp_enqueue_scripts', 'my_plugin_enqueue_styles');
 
-// DATABASE 
-function create_table_for_registeration_on_activation() {
-    global $wpdb;
 
-    // Define the table name with the WordPress prefix
-    $table_name = $wpdb->prefix . 'registeration';
-
-    $sql = "CREATE TABLE $table_name (
-		id int(11) NOT NULL AUTO_INCREMENT,
-		name varchar(50) NOT NULL,
-        phone varchar(100) NOT NULL,
-		email varchar(100) NOT NULL,
-		password varchar(255) NOT NULL,
-        roll varchar(100) NOT NULL DEFAULT 'user',
-		PRIMARY KEY (id)
-	  );";
-
-    
-    $wpdb->query($sql);
-}
 
 function landing_shortcode() {
     ?>
@@ -110,6 +91,28 @@ function create_table_for_queries_on_activation() {
 }
 
 register_activation_hook(__FILE__, 'create_table_for_queries_on_activation');
+
+// DATABASE 
+function create_table_for_messages_on_activation() {
+    global $wpdb;
+
+    
+    $table_name = $wpdb->prefix . 'messagingchat';
+
+    $sql = "CREATE TABLE $table_name (
+        id int(11) NOT NULL AUTO_INCREMENT,
+		user_id int(11) NOT NULL ,
+		queryno varchar(50) NOT NULL,
+        messages TEXT NOT NULL,
+		identity varchar(100) NOT NULL, 
+		timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)
+	  );";
+
+    
+    $wpdb->query($sql);
+}
+register_activation_hook( __FILE__, 'create_table_for_messages_on_activation' );
 
 //creating shortcode of the Query Form page
 function querform_shortcode() {
