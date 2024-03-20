@@ -714,16 +714,14 @@ function replyform_shortcode() {
         <form id="updateform" action="<?php echo esc_attr(admin_url('admin-post.php')); ?>" method="POST">
             <input type="hidden" name="action" value="<?php echo esc_attr('save_my_custom_form9'); ?>" />
             <br>
-            <label for="name" style="color: #000; font-weight: 600; margin-right: 250px;">Employee Name:</label>
+            <label for="name" style="color: #000; font-weight: 600; margin-right: 20px;">Employee Name:</label>
+            <label for="name" style="color: #000; font-weight: 600; margin-right: 250px;"><?php echo $name; ?></label>
+            
             <br>
-            <input type="text" value="<?php echo $name; ?>" placeholder="Enter your Name"
-                   style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" id="name" name="name"/>
             <br>
-            <br>
-            <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 330px;">Email:</label>
-            <br>
-            <input type="text" value="<?php echo $email; ?>" placeholder="Enter your valid email" id="e1"
-                   style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" name="email"/>
+            <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 20px;">Email:</label>
+            <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 330px;"><?php echo $email; ?></label>
+            
             <br>
             <br>
             <label for="category" style="color: #000; font-weight: 600; margin-top: 5px;">Query Category:</label>
@@ -755,9 +753,8 @@ function replyform_shortcode() {
             <label for="desc" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Description:</label>
             <br>
             <br>
-            <textarea id="desc" name="desc" rows="4" cols="50" style="outline: none;">
-                <?php echo $description; ?>
-            </textarea>
+            
+            <label for="desc" style="color: #000; border: 1px solid #000;  padding :10px 10px;"><?php echo $description; ?></label>
             <br>
             <br>
             <label for="answers" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Reply:</label>
