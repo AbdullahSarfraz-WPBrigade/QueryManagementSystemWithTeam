@@ -25,7 +25,7 @@ function landing_shortcode() {
         wp_redirect(home_url('/wp-login.php'));
         exit();
     }
-    
+
     get_header();
 
     ?>
@@ -160,14 +160,29 @@ function querform_shortcode() {
                                         <br> 
                                         <textarea id="desc" name="desc" rows="4" cols="50" style=" outline: none;">   
                                         </textarea>
-                                        <br>
-                                        <br> 
-                                        <input type="file" id="myfile" name="myfile">
+                                        
                                         <br>
                                         <br> 
                                         <input type="submit" name="querybtn_one" value="Submit Query" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
                                         <br>
                                  
+                            </form>
+
+                            <form id="messageform" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
+                                <input type="hidden" name="action" value="<?php echo esc_attr( 'messageformfunction' ); ?>" />
+                                
+                                <br>
+                                        <br> 
+                                        <label for="desc" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Description:</label>
+                                        <br>
+                                        <br> 
+                                        <textarea id="desc" name="desc" rows="4" cols="50" style=" outline: none;">   
+                                        </textarea>
+                                <br>
+                                
+                                <br> 
+                                <input type="submit" name="msgbtn_one" value="Send" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
+                                <br>
                             </form>
                             <button class="anonymous">Send a Anonymous Query</button>
                         </div>   
@@ -402,7 +417,7 @@ if (is_user_logged_in()) {
                   <th name="des" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Description</th>
                   <th name="status" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Status</th>        
                   <th name="answer" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Answer</th>    
-                  <th name="answer" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Delete</th>    
+                  <th name="chat" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Chat</th>    
                 </tr>
                     <?php
 
@@ -418,12 +433,14 @@ if (is_user_logged_in()) {
                         $rows = $wpdb->get_results($query, ARRAY_A);
 
                         foreach ($rows as $row) {
+                            
                             $id = $row["id"];
                             $category = $row["category"];
                             $description = $row["description"];
                             $answers = $row["answers"];
                             $status = $row["status"];
                             $priorty = $row["priorty"];
+                            $user_type = 'employee';
                         
                             echo "
                                 <tr>
@@ -434,11 +451,7 @@ if (is_user_logged_in()) {
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$answers</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
-                                    <form method='post' action=''>
-                                        <input type='hidden' name='delete_id' value='$id'>
-                                        <button type='submit' name='delete_row'>Delete</button>
-                                    </form>
-                                
+                                    <a href='/replyform?id=$id&type=$user_type'>Update</a>
                                 </th>
                                 
                                 </tr>
@@ -447,23 +460,7 @@ if (is_user_logged_in()) {
                         }
 
 
-    if (isset($_POST['delete_row'])) {
-        $delete_id = $_POST['delete_id'];
-    
-        // Perform the delete operation
-        $delete_query = $wpdb->prepare("DELETE FROM $table_name WHERE id = %d", $delete_id);
-        $wpdb->query($delete_query);
-    
-        if ($wpdb->rows_affected > 0) {
-            
-            echo "<script>alert('Row Deleted Sucessfully'); window.location.href = '" . site_url('/employeedashboard') . "';</script>";
-            
-        } else {
-            
-            echo "<script>alert('No rows deleted. Row with ID $delete_id may not exist.'); window.location.href = '" . site_url('/employeedashboard') . "';</script>";
 
-        }
-    }
 
    ?>           
               </table>
@@ -634,6 +631,7 @@ function hrdashboard_shortcode() {
                             $answers =  wp_trim_words( $row['answers'], 5 ) ;
                             $status = $row["status"];
                             $priorty = $row["priorty"];
+                            $user_type = 'hr';
 
                             if($name == "anonymous") {
                                     echo "
@@ -646,7 +644,7 @@ function hrdashboard_shortcode() {
                                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
                                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$answers</th>
                                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
-                                        <a href='/replyform?id=$queryId'>Update</a>
+                                        <a href='/replyform?id=$queryId&type=$user_type'>Update</a>
                                     </tr>
                                 "; 
                             }else{
@@ -660,7 +658,7 @@ function hrdashboard_shortcode() {
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$answers</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
-                                    <a href='/replyform?id=$queryId'>Update</a>
+                                    <a href='/replyform?id=$queryId&type=$user_type'>Update</a>
                                 </tr>
                                 "; 
                             }
@@ -693,7 +691,7 @@ add_shortcode('hrdashboard_shortcode', 'hrdashboard_shortcode');
 // shortcode for the HR Update form Page
 function replyform_shortcode() {
     $test_id = isset($_GET['id']) ? $_GET['id'] : '';
-    echo $test_id;
+    // echo $test_id;
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
@@ -762,20 +760,17 @@ function replyform_shortcode() {
             </textarea>
             <br>
             <br>
-            <label for="answers" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Answer:</label>
+            <label for="answers" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Reply:</label>
             <br>
             <br>
             <textarea id="ans" name="answers" rows="4" cols="50" style="outline: none;">
                 <?php echo $answers; ?>
             </textarea>
             <br>
-            <br>
-            <input type="file" id="myfile" name="myfile">
-            <label for="myfile">Current File: <?php echo $file_path; ?></label>
-            <br>
+            
             <br>
             <input type="hidden" name="id" value="<?php echo $test_id; ?>">
-            <input type="submit" name="reply_querybtn_one" value="Update Query"
+            <input type="submit" name="reply_querybtn_one" value="Send"
             style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
             <br>
         </form>
@@ -819,6 +814,7 @@ function save_my_custom_form9() {
     );
 
     if ($check !== false) {
+        
         echo "<script>alert('Your Query Updated!'); window.location.href = '" . site_url('/hrdashboard') . "';</script>";
         exit;
     } else {
@@ -955,6 +951,7 @@ function save_my_custom_form8() {
                 $category = $row["category"];
                 $status = $row["status"];
                 $priorty = $row["priorty"];
+                $user_type = 'hr';
             
                 echo "
                     <tr>
@@ -964,7 +961,7 @@ function save_my_custom_form8() {
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
-                        <a href='/replyform?id=$queryId'>Update</a>
+                        <a href='/replyform?id=$queryId&type=$user_type'>Update</a>
                     </tr>
                 ";                  
             } ?>
