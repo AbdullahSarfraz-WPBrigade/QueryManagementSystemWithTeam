@@ -20,7 +20,17 @@ add_action('wp_enqueue_scripts', 'my_plugin_enqueue_styles');
 
 
 function landing_shortcode() {
+
+    if (isset($_POST['loginlandingpage']) ) {
+        wp_redirect(home_url('/wp-login.php'));
+        exit();
+    }
+    
+    get_header();
+
     ?>
+
+    
 <div class="full-page-background"></div>
 <div class="login-container">
     <h1>Welcome to Employee Query Management System</h1>
@@ -38,10 +48,7 @@ function landing_shortcode() {
 
 <?php
 
-    if (isset($_POST['loginlandingpage']) ) {
-        wp_redirect(home_url('/wp-login.php'));
-        exit();
-    }
+
 
 
 }
@@ -338,6 +345,7 @@ if (is_user_logged_in()) {
     // Access user data
     $user_name = $current_user->display_name;
     $user_email = $current_user->user_email;
+    $user_id = get_current_user_id();
 
     // Display user data
     $live_user = $user_email;
@@ -346,10 +354,10 @@ if (is_user_logged_in()) {
 ?>
     <div class="top-header" style=" background-color: green; padding-top: 10px; padding-bottom: 10px;">
     <p>Hello,
-                    <?php 
+                    <?php echo $user_id;
                     // Check if the user is logged in
     // Get the current user ID
-    $user_id = get_current_user_id();
+    // $user_id = get_current_user_id();
 
     // Get user meta data
     $user_name = get_user_meta($user_id, 'user_data_name', true);
