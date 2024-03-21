@@ -123,8 +123,8 @@ register_activation_hook( __FILE__, 'create_table_for_messages_on_activation' );
 
 //creating shortcode of the Query Form page
 function querform_shortcode() {
+    ob_start();
     ?>
-
                         </div class="main-form" >
                             <form id="myQueryForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
                                 <input type="hidden" name="action" value="<?php echo esc_attr( 'save_my_custom_form4' ); ?>" />
@@ -255,8 +255,9 @@ function querform_shortcode() {
                             secondDiv.style.display = 'block';
                         });
 
-                        </script>
-    <?php   
+                        </script>    
+    <?php
+        return ob_get_clean();
 }
 
 add_shortcode('my_queryform_shortcode', 'querform_shortcode');
@@ -352,6 +353,7 @@ add_action( 'admin_post_save_my_custom_form5', 'save_my_custom_form5' );
 
 //creating shortcode for the Employee Dashboard
 function employee_shortcode() {
+    ob_start();
 
 if (is_user_logged_in()) {
     // Get the current user object
@@ -470,12 +472,14 @@ if (is_user_logged_in()) {
     </div>
 
     <?php
+    return ob_get_clean();
 }
 
 add_shortcode('employee_shortcode', 'employee_shortcode');
 
 // shortcode for the HR Dashboard page
 function hrdashboard_shortcode() {
+    ob_start();
     global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
 
@@ -683,6 +687,7 @@ function hrdashboard_shortcode() {
                 'current' => $current_page,
             ));
                         
+            return ob_get_clean();   
 }
 
 add_shortcode('hrdashboard_shortcode', 'hrdashboard_shortcode');
@@ -690,6 +695,7 @@ add_shortcode('hrdashboard_shortcode', 'hrdashboard_shortcode');
 
 // shortcode for the HR Update form Page
 function replyform_shortcode() {
+    ob_start();
     $test_id = isset($_GET['id']) ? $_GET['id'] : '';
     // echo $test_id;
 
@@ -773,6 +779,7 @@ function replyform_shortcode() {
         </form>
     </div>
     <?php
+    return ob_get_clean();
 }
 
 add_shortcode('replyform_shortcode', 'replyform_shortcode');
@@ -825,6 +832,7 @@ add_action('admin_post_save_my_custom_form9', 'save_my_custom_form9');
 
 
 function reportsystem_shortcode() {
+    ob_start();
     ?>
 
 <h2>Select options to generate a report</h2><br><br>
@@ -881,6 +889,7 @@ function reportsystem_shortcode() {
 </form>
 
     <?php
+    return ob_get_clean();   
 }
 add_shortcode('reportsystem_shortcode', 'reportsystem_shortcode');
 
