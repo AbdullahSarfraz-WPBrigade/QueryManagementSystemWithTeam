@@ -17,7 +17,32 @@ function my_plugin_enqueue_styles() {
 // Hook the function to the appropriate action
 add_action('wp_enqueue_scripts', 'my_plugin_enqueue_styles');
 
+function create_plugin_pages() {
+    
+    $pages = array(
+        'HR DASHBOARD' => '[hrdashboard_shortcode]',
+        'EMPLOYEE' => '[employee_shortcode]',
+        'QUERY-FORM' => '[my_queryform_shortcode]',
+        'REPLY FORM' => '[replyform_shortcode]',
+        'GENERATE REPORTS' => '[reportsystem_shortcode]'
+        
+    );
 
+    foreach ($pages as $title => $content) {
+        // Check if the page doesn't exist already
+        if (!get_page_by_title($title)) {
+            $new_page = array(
+                'post_title'    => $title,
+                'post_content'  => $content,
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+            );
+
+            // Insert the page into the database
+            wp_insert_post($new_page);
+        }
+    }
+}
 
 function landing_shortcode() {
 
