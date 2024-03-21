@@ -93,7 +93,10 @@ function custom_login_redirect( $redirect_to, $request, $user ) {
     // Set the URL to redirect users to based on their role
     if ( $user_role == 'subscriber' ) {
         $redirect_to = '/employeedashboard/';
-    } 
+    }elseif ( $user_role == 'editor' ) {
+        $redirect_to = '/hrdashboard/';
+
+    }
 }
     return $redirect_to;
 }
@@ -389,13 +392,7 @@ if (is_user_logged_in()) {
     <p>Hello,
                     <?php echo $user_id;
                     // Check if the user is logged in
-    // Get the current user ID
-    // $user_id = get_current_user_id();
-
-    // Get user meta data
-    // $user_name = get_user_meta($user_id, 'user_data_name', true);
-    // $user_email = get_user_meta($user_id, 'user_data_email', true);
-
+    
     // Check if the user meta data exists
     if ($user_name && $user_email) {
         // Display user data
@@ -611,7 +608,6 @@ function hrdashboard_shortcode() {
           <th name="category" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Category</th>
           <th name="status" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Status</th>
           <th name="priority" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Priority</th>
-          <th name="answer" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Answer</th>
           <th name="update" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Update</th>
         </tr>
 
@@ -660,7 +656,6 @@ function hrdashboard_shortcode() {
                                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
                                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
                                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
-                                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$answers</th>
                                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
                                         <a href='/replyform?id=$queryId&type=$user_type'>Update</a>
                                     </tr>
@@ -674,7 +669,6 @@ function hrdashboard_shortcode() {
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$answers</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
                                     <a href='/replyform?id=$queryId&type=$user_type'>Update</a>
                                 </tr>
@@ -710,8 +704,7 @@ add_shortcode('hrdashboard_shortcode', 'hrdashboard_shortcode');
 function replyform_shortcode() {
     $test_id = isset($_GET['id']) ? $_GET['id'] : '';
     $user_type = isset($_GET['type']) ? $_GET['type'] : '';
-    echo $test_id;
-    echo $user_type;
+    
     
     
 
@@ -789,6 +782,49 @@ function replyform_shortcode() {
             <br>
         </form>
     </div>
+
+    <?php
+
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'messagingchat';
+
+        
+        
+
+        $sql = $wpdb->prepare(
+            "SELECT * FROM $table_name WHERE email_id = %s AND queryno = %s ORDER BY timestamp ASC",
+            $email,
+            $test_id
+        );
+        
+        // Execute the SQL query
+        $results = $wpdb->get_results($sql, ARRAY_A);
+        
+        // Check if there are any results
+        if ($results) {
+            // Loop through the results to process each message
+            foreach ($results as $row) {
+                
+                $message_content = $row['messages'];
+                $identity = $row['identity'];
+                
+        
+                if($identity == 'hr') {
+                    echo '<h5 style=" font: bold; ">HR : </h5>';
+                    echo $message_content;
+                }elseif($identity == 'employee') {
+                    echo '<h5 style=" font: bold; ">Employee : </h5>';
+                    echo $message_content;
+                }else{
+                    echo 'User type is not defined!';
+                }
+            }
+            
+        } else {
+            echo '<br>Start Conversation.'; // Display a message if no matching messages are found
+        }
+
+    ?>
 <!-- message form -->
     <form id="messageform" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
         <input type="hidden" name="action" value="<?php echo esc_attr( 'messageformfu' ); ?>" />
@@ -846,10 +882,11 @@ function messageformfu() {
             if ($check) {
 
                 if($check && $user_type == 'employee') {
-                    echo "<script>alert('Your reply sent !'); window.location.href = '" . site_url('/employeedashboard') . "';</script>";
+                    echo "<script>alert('Your reply sent !'); window.location.href = '" . site_url("/replyform/?id=$test_id&type=employee") . "';</script>";
                     exit;
                 }elseif($check && $user_type == 'hr') {
-                    echo "<script>alert('Your reply sent !'); window.location.href = '" . site_url('/hrdashboard') . "';</script>";
+                    echo "<script>alert('Your reply sent !'); window.location.href = '" . site_url("/replyform/?id=$test_id&type=hr") . "';</script>";
+
                     exit;
                 }else {
                     echo "<script>alert('Data not inserted: " . $wpdb->last_error . "')</script>";
