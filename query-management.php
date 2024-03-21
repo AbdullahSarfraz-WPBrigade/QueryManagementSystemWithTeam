@@ -44,6 +44,7 @@ function create_plugin_pages() {
     }
 }
 
+
 function landing_shortcode() {
 
     if (isset($_POST['loginlandingpage']) ) {
@@ -133,7 +134,7 @@ function create_table_for_messages_on_activation() {
 
     $sql = "CREATE TABLE $table_name (
         id int(11) NOT NULL AUTO_INCREMENT,
-		user_id int(11) NOT NULL ,
+		email_id varchar(50) NOT NULL ,
 		queryno varchar(50) NOT NULL,
         messages TEXT NOT NULL,
 		identity varchar(100) NOT NULL, 
@@ -148,21 +149,30 @@ register_activation_hook( __FILE__, 'create_table_for_messages_on_activation' );
 
 //creating shortcode of the Query Form page
 function querform_shortcode() {
-    ob_start();
+
+    $current_user = wp_get_current_user();
+
+    // Access user data
+    $user_name = $current_user->display_name;
+    $user_email = $current_user->user_email;
+    $user_id = get_current_user_id();
     ?>
+
                         </div class="main-form" >
                             <form id="myQueryForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
                                 <input type="hidden" name="action" value="<?php echo esc_attr( 'save_my_custom_form4' ); ?>" />
                                         <br>
                                    
-                                        <label for="name" style="color: #000; font-weight: 600; margin-right: 250px;">Employee Name:</label>
-                                        <br>    
-                                        <input type="text" placeholder="Enter your Name" style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" id="name" name="name" />  
+                                        <label for="name" style="color: #000; font-weight: 600; margin-right: 20px;">Your Name:</label>
+                                        <label for="nameoutput" style="color: #000; font-weight: 600; margin-right: 20px;"><?php echo $user_name; ?></label>
+                                           
+                                        <input type="hidden" id="name" name="name" value="<?php echo $user_name; ?>" />  
                                         <br>    
                                         <br>   
-                                        <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 330px;">Email:</label>
-                                        <br>
-                                        <input type="int" placeholder="Enter your valid email" id="e1" style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" name="email" />
+                                        <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 20px;">Email:</label>
+                                        <label for="e_output" ><?php echo $user_email; ?></label>
+                                        
+                                        <input type="hidden" name="email" value="<?php echo $user_email; ?>" />
                                         <br>
                                         <br> 
                                         <label for="category" style="color: #000; font-weight: 600; margin-top: 5px;">Query Category:</label>
@@ -193,22 +203,7 @@ function querform_shortcode() {
                                  
                             </form>
 
-                            <form id="messageform" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-                                <input type="hidden" name="action" value="<?php echo esc_attr( 'messageformfunction' ); ?>" />
-                                
-                                <br>
-                                        <br> 
-                                        <label for="desc" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Description:</label>
-                                        <br>
-                                        <br> 
-                                        <textarea id="desc" name="desc" rows="4" cols="50" style=" outline: none;">   
-                                        </textarea>
-                                <br>
-                                
-                                <br> 
-                                <input type="submit" name="msgbtn_one" value="Send" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
-                                <br>
-                            </form>
+                            
                             <button class="anonymous">Send a Anonymous Query</button>
                         </div>   
 
@@ -224,9 +219,10 @@ function querform_shortcode() {
                                    <input type="hidden" placeholder="Enter your Name" style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" id="name" name="name" value="anonymous"/>  
                                    <br>    
                                    <br>   
-                                   <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 330px;">Email:</label>
-                                   <br>
-                                   <input type="int" placeholder="Enter your valid email" id="e1" style="width: 26%; margin-top: 5px; border-radius: 8px; padding: 5px 10px;" name="email" />
+                                   <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 20px;">Email:</label>
+                                        <label for="e_output" ><?php echo $user_email; ?></label>
+                                        
+                                        <input type="hidden" name="email" value="<?php echo $user_email; ?>" />
                                    <br>
                                    <br>
                             
@@ -258,9 +254,6 @@ function querform_shortcode() {
                                 </textarea>
                                 <br>
                                 <br> 
-                                <input type="file" id="myfile" name="myfile">
-                                <br>
-                                <br> 
                                 <input type="submit" name="querybtn_second" value="Submit Query" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
                                 <br>
 
@@ -280,9 +273,8 @@ function querform_shortcode() {
                             secondDiv.style.display = 'block';
                         });
 
-                        </script>    
-    <?php
-        return ob_get_clean();
+                        </script>
+    <?php   
 }
 
 add_shortcode('my_queryform_shortcode', 'querform_shortcode');
@@ -301,29 +293,29 @@ function save_my_custom_form4() {
     
 
             $check = $wpdb->insert(
-                        $table_name,
-                    $data = array(
-                        'name' => $name,
-                        'email' => $email,
-                        'category' => $category,
-                        'priorty' => $priority,
-                        'description' => $desc,
-                        'file_path' => $myfile,
+                $table_name,
+                $data = array(
+                    'name' => $name,
+                    'email' => $email,
+                    'category' => $category,
+                    'priorty' => $priority,
+                    'description' => $desc,
+                    'file_path' => $myfile,
 
-                    ),
-                    array( '%s', '%s', '%s', '%s','%s', '%s', '%s', )
-                    );
+                ),
+                array( '%s', '%s', '%s', '%s','%s', '%s', '%s', )
+            );
 
-                    if ($check) {
+            if ($check) {
 
-                        echo "<script>alert('Your Query Submitted !'); window.location.href = '" . site_url('/query-form') . "';</script>";
-                        exit;
+                echo "<script>alert('Your Query Submitted !'); window.location.href = '" . site_url('/employeedashboard') . "';</script>";
+                exit;
 
-                    } else {
+            } else {
 
-                        echo "<script>alert('Data not inserted: " . $wpdb->last_error . "')</script>";
-                        $wpdb->print_error();
-                    }        
+                echo "<script>alert('Data not inserted: " . $wpdb->last_error . "')</script>";
+                $wpdb->print_error();
+            }        
             
         
                 }
@@ -378,7 +370,6 @@ add_action( 'admin_post_save_my_custom_form5', 'save_my_custom_form5' );
 
 //creating shortcode for the Employee Dashboard
 function employee_shortcode() {
-    ob_start();
 
 if (is_user_logged_in()) {
     // Get the current user object
@@ -402,8 +393,8 @@ if (is_user_logged_in()) {
     // $user_id = get_current_user_id();
 
     // Get user meta data
-    $user_name = get_user_meta($user_id, 'user_data_name', true);
-    $user_email = get_user_meta($user_id, 'user_data_email', true);
+    // $user_name = get_user_meta($user_id, 'user_data_name', true);
+    // $user_email = get_user_meta($user_id, 'user_data_email', true);
 
     // Check if the user meta data exists
     if ($user_name && $user_email) {
@@ -443,7 +434,6 @@ if (is_user_logged_in()) {
                   <th name="prty" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Priority</th>
                   <th name="des" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Description</th>
                   <th name="status" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Status</th>        
-                  <th name="answer" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Answer</th>    
                   <th name="chat" style="border: 1px solid skyblue; background-color: skyblue;  color: #fff; padding-top: 5px; padding-right: 2px;">Chat</th>    
                 </tr>
                     <?php
@@ -463,7 +453,8 @@ if (is_user_logged_in()) {
                             
                             $id = $row["id"];
                             $category = $row["category"];
-                            $description = $row["description"];
+                            // $description = $row["description"];
+                            $description =  wp_trim_words( $row['description'], 8 ) ;
                             $answers = $row["answers"];
                             $status = $row["status"];
                             $priorty = $row["priorty"];
@@ -476,9 +467,9 @@ if (is_user_logged_in()) {
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$description</th>
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$answers</th>
+                                
                                 <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
-                                    <a href='/replyform?id=$id&type=$user_type'>Update</a>
+                                    <a href='/replyform?id=$id&type=$user_type' >followUp</a>
                                 </th>
                                 
                                 </tr>
@@ -497,14 +488,12 @@ if (is_user_logged_in()) {
     </div>
 
     <?php
-    return ob_get_clean();
 }
 
 add_shortcode('employee_shortcode', 'employee_shortcode');
 
 // shortcode for the HR Dashboard page
 function hrdashboard_shortcode() {
-    ob_start();
     global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
 
@@ -712,7 +701,6 @@ function hrdashboard_shortcode() {
                 'current' => $current_page,
             ));
                         
-            return ob_get_clean();   
 }
 
 add_shortcode('hrdashboard_shortcode', 'hrdashboard_shortcode');
@@ -720,9 +708,12 @@ add_shortcode('hrdashboard_shortcode', 'hrdashboard_shortcode');
 
 // shortcode for the HR Update form Page
 function replyform_shortcode() {
-    ob_start();
     $test_id = isset($_GET['id']) ? $_GET['id'] : '';
-    // echo $test_id;
+    $user_type = isset($_GET['type']) ? $_GET['type'] : '';
+    echo $test_id;
+    echo $user_type;
+    
+    
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
@@ -737,8 +728,7 @@ function replyform_shortcode() {
         $priorty = $row->priorty;
         $status = $row->status;
         $description = $row->description;
-        $answers = $row->answers;
-        $file_path = $row->file_path;
+        
     }
     ?>
     <div class="main-form">
@@ -747,11 +737,13 @@ function replyform_shortcode() {
             <br>
             <label for="name" style="color: #000; font-weight: 600; margin-right: 20px;">Employee Name:</label>
             <label for="name" style="color: #000; font-weight: 600; margin-right: 250px;"><?php echo $name; ?></label>
-            
+            <input type="hidden" name="name" value="<?php echo $name; ?>">
             <br>
             <br>
             <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 20px;">Email:</label>
             <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 330px;"><?php echo $email; ?></label>
+            <input type="hidden" name="email" value="<?php echo $email; ?>">
+
             
             <br>
             <br>
@@ -786,28 +778,94 @@ function replyform_shortcode() {
             <br>
             
             <label for="desc" style="color: #000; border: 1px solid #000;  padding :10px 10px;"><?php echo $description; ?></label>
+            <input type="hidden" name="desc" value="<?php echo $description; ?>">
             <br>
-            <br>
-            <label for="answers" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Reply:</label>
-            <br>
-            <br>
-            <textarea id="ans" name="answers" rows="4" cols="50" style="outline: none;">
-                <?php echo $answers; ?>
-            </textarea>
-            <br>
+           
             
             <br>
             <input type="hidden" name="id" value="<?php echo $test_id; ?>">
-            <input type="submit" name="reply_querybtn_one" value="Send"
+            <input type="submit" name="reply_querybtn_one" value="Update Status"
             style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
             <br>
         </form>
     </div>
+<!-- message form -->
+    <form id="messageform" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
+        <input type="hidden" name="action" value="<?php echo esc_attr( 'messageformfu' ); ?>" />
+        
+        <br>
+                <br> 
+                <label for="desc" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Reply:</label>
+                <br>
+                <br> 
+                <textarea id="desc" name="messagetosend" rows="4" cols="50" style=" outline: none;">   
+                </textarea>
+        <br>
+                <input type="hidden" name="mail_id" value="<?php echo $email; ?>">
+                <input type="hidden" name="id" value="<?php echo $test_id; ?>">
+                <input type="hidden" name="type" value="<?php echo $user_type; ?>">
+        <br> 
+        <input type="submit" name="msgbtn_one" value="Send" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
+        <br>
+    </form>
+
     <?php
-    return ob_get_clean();
 }
 
 add_shortcode('replyform_shortcode', 'replyform_shortcode');
+
+function messageformfu() {
+    $test_id = isset($_POST['id']) ? intval($_POST['id']) : 0; // query number 
+
+
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'messagingchat';
+
+    
+    $email = sanitize_text_field($_POST['mail_id']);
+    $messagetosend = sanitize_text_field($_POST['messagetosend']);
+    $user_type = sanitize_text_field($_POST['type']); // identity
+    
+
+            $check = $wpdb->insert(
+                $table_name,
+                 array(
+                    'email_id' => $email,
+                    'queryno' => $test_id,
+                    'messages' => $messagetosend,
+                    'identity' => $user_type,
+                    
+
+                ),
+                
+                array( '%s', '%d', '%s', '%s' ),
+                
+                
+            );
+
+            if ($check) {
+
+                if($check && $user_type == 'employee') {
+                    echo "<script>alert('Your reply sent !'); window.location.href = '" . site_url('/employeedashboard') . "';</script>";
+                    exit;
+                }elseif($check && $user_type == 'hr') {
+                    echo "<script>alert('Your reply sent !'); window.location.href = '" . site_url('/hrdashboard') . "';</script>";
+                    exit;
+                }else {
+                    echo "<script>alert('Data not inserted: " . $wpdb->last_error . "')</script>";
+                    $wpdb->print_error();
+                }
+
+
+            } else {
+
+                echo "<script>alert('Data not inserted: " . $wpdb->last_error . "')</script>";
+                $wpdb->print_error();
+            }
+
+}
+add_action('admin_post_nopriv_messageformfu', 'messageformfu');
+add_action('admin_post_messageformfu', 'messageformfu');
 
 // Query Form Updation
 function save_my_custom_form9() {
@@ -857,7 +915,6 @@ add_action('admin_post_save_my_custom_form9', 'save_my_custom_form9');
 
 
 function reportsystem_shortcode() {
-    ob_start();
     ?>
 
 <h2>Select options to generate a report</h2><br><br>
@@ -914,7 +971,6 @@ function reportsystem_shortcode() {
 </form>
 
     <?php
-    return ob_get_clean();   
 }
 add_shortcode('reportsystem_shortcode', 'reportsystem_shortcode');
 
