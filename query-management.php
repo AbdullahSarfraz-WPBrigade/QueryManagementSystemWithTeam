@@ -9,15 +9,15 @@ Author URI: http://querymanagement.local/
 
 
 // Define a function to enqueue your CSS file
-function my_plugin_enqueue_styles() {
+function qms_dev_team_my_plugin_enqueue_styles() {
     // Enqueue your CSS file
     wp_enqueue_style('my-plugin-css', plugins_url('/style.css', __FILE__));
 }
 
 // Hook the function to the appropriate action
-add_action('wp_enqueue_scripts', 'my_plugin_enqueue_styles');
+add_action('wp_enqueue_scripts', 'qms_dev_team_my_plugin_enqueue_styles');
 
-function create_plugin_pages() {
+function qms_dev_team_create_plugin_pages() {
     
     $pages = array(
         'HR DASHBOARD' => '[hrdashboard_shortcode]',
@@ -45,7 +45,7 @@ function create_plugin_pages() {
 }
 
 
-function landing_shortcode() {
+function qms_dev_team_landing_shortcode() {
 
     if (isset($_POST['loginlandingpage']) ) {
         wp_redirect(home_url('/wp-login.php'));
@@ -79,12 +79,12 @@ function landing_shortcode() {
 
 }
 
-add_shortcode('landing_shortcode', 'landing_shortcode');
+add_shortcode('landing_shortcode', 'qms_dev_team_landing_shortcode');
 
 
 // Wordpress login page redirection
 
-function custom_login_redirect( $redirect_to, $request, $user ) {
+function qms_dev_team_custom_login_redirect( $redirect_to, $request, $user ) {
     // Check if the user has roles and if the roles array is not empty
     if ( isset( $user->roles ) && is_array( $user->roles ) && ! empty( $user->roles ) ) {
     // Get the current user's role
@@ -100,10 +100,10 @@ function custom_login_redirect( $redirect_to, $request, $user ) {
 }
     return $redirect_to;
 }
-add_filter( 'login_redirect', 'custom_login_redirect', 10, 3 );
+add_filter( 'login_redirect', 'qms_dev_team_custom_login_redirect', 10, 3 );
 
 // DATABASE for Queries
-function create_table_for_queries_on_activation() {
+function qms_dev_team_create_table_for_queries_on_activation() {
     global $wpdb;
 
     // Define the table name with the WordPress prefix
@@ -126,10 +126,10 @@ function create_table_for_queries_on_activation() {
     $wpdb->query($sql);
 }
 
-register_activation_hook(__FILE__, 'create_table_for_queries_on_activation');
+register_activation_hook(__FILE__, 'qms_dev_team_create_table_for_queries_on_activation');
 
 // DATABASE 
-function create_table_for_messages_on_activation() {
+function qms_dev_team_create_table_for_messages_on_activation() {
     global $wpdb;
 
     
@@ -148,10 +148,10 @@ function create_table_for_messages_on_activation() {
     
     $wpdb->query($sql);
 }
-register_activation_hook( __FILE__, 'create_table_for_messages_on_activation' );
+register_activation_hook( __FILE__, 'qms_dev_team_create_table_for_messages_on_activation' );
 
 //creating shortcode of the Query Form page
-function querform_shortcode() {
+function qms_dev_team_querform_shortcode() {
 
     $current_user = wp_get_current_user();
 
@@ -163,7 +163,7 @@ function querform_shortcode() {
 
                         </div class="main-form" >
                             <form id="myQueryForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-                                <input type="hidden" name="action" value="<?php echo esc_attr( 'save_my_custom_form4' ); ?>" />
+                                <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form4' ); ?>" />
                                         <br>
                                    
                                         <label for="name" style="color: #000; font-weight: 600; margin-right: 20px;">Your Name:</label>
@@ -213,7 +213,7 @@ function querform_shortcode() {
                     <!-- Second Anonymous Form -->
                         <div class="second-form" style=" display: none;">
                             <form id="myqueryForm1" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-                                <input type="hidden" name="action" value="<?php echo esc_attr( 'save_my_custom_form5' ); ?>" />
+                                <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form5' ); ?>" />
                                 <h2 style="color: blue;">Fill the Anonymous Form</h2>
                                 <br>
                                    
@@ -280,10 +280,10 @@ function querform_shortcode() {
     <?php   
 }
 
-add_shortcode('my_queryform_shortcode', 'querform_shortcode');
+add_shortcode('my_queryform_shortcode', 'qms_dev_team_querform_shortcode');
 
 //Query Form Submittion with name
-function save_my_custom_form4() {
+function qms_dev_team_save_my_custom_form4() {
 	global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
 
@@ -322,12 +322,12 @@ function save_my_custom_form4() {
             
         
                 }
-add_action( 'admin_post_nopriv_save_my_custom_form4', 'save_my_custom_form4' );
-add_action( 'admin_post_save_my_custom_form4', 'save_my_custom_form4' );
+add_action( 'admin_post_nopriv_qms_dev_team_save_my_custom_form4', 'qms_dev_team_save_my_custom_form4' );
+add_action( 'admin_post_qms_dev_team_save_my_custom_form4', 'qms_dev_team_save_my_custom_form4' );
 
 
 //Query Form Submittion without name
-function save_my_custom_form5() {
+function qms_dev_team_save_my_custom_form5() {
 	global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
 
@@ -367,12 +367,12 @@ function save_my_custom_form5() {
             
         
                 }
-add_action( 'admin_post_nopriv_save_my_custom_form5', 'save_my_custom_form5' );
-add_action( 'admin_post_save_my_custom_form5', 'save_my_custom_form5' );
+add_action( 'admin_post_nopriv_qms_dev_team_save_my_custom_form5', 'qms_dev_team_save_my_custom_form5' );
+add_action( 'admin_post_qms_dev_team_save_my_custom_form5', 'qms_dev_team_save_my_custom_form5' );
 
 
 //creating shortcode for the Employee Dashboard
-function employee_shortcode() {
+function qms_dev_team_employee_shortcode() {
 
 if (is_user_logged_in()) {
     // Get the current user object
@@ -389,8 +389,9 @@ if (is_user_logged_in()) {
                                                    
 ?>
     <div class="top-header" style=" background-color: green; padding-top: 10px; padding-bottom: 10px;">
-    <p>Hello,
-                    <?php echo $user_id;
+    
+                    <?php echo '<h3 style="font: bold; color: white; ">  > '. $user_name . '</h3>';
+                     echo '<h3 style="font: bold; color: white; ">  > '. $user_email . '</h3>';
                     // Check if the user is logged in
     
     // Check if the user meta data exists
@@ -487,10 +488,10 @@ if (is_user_logged_in()) {
     <?php
 }
 
-add_shortcode('employee_shortcode', 'employee_shortcode');
+add_shortcode('employee_shortcode', 'qms_dev_team_employee_shortcode');
 
 // shortcode for the HR Dashboard page
-function hrdashboard_shortcode() {
+function qms_dev_team_hrdashboard_shortcode() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
 
@@ -697,11 +698,11 @@ function hrdashboard_shortcode() {
                         
 }
 
-add_shortcode('hrdashboard_shortcode', 'hrdashboard_shortcode');
+add_shortcode('hrdashboard_shortcode', 'qms_dev_team_hrdashboard_shortcode');
 
 
 // shortcode for the HR Update form Page
-function replyform_shortcode() {
+function qms_dev_team_replyform_shortcode() {
     $test_id = isset($_GET['id']) ? $_GET['id'] : '';
     $user_type = isset($_GET['type']) ? $_GET['type'] : '';
     
@@ -726,7 +727,7 @@ function replyform_shortcode() {
     ?>
     <div class="main-form">
         <form id="updateform" action="<?php echo esc_attr(admin_url('admin-post.php')); ?>" method="POST">
-            <input type="hidden" name="action" value="<?php echo esc_attr('save_my_custom_form9'); ?>" />
+            <input type="hidden" name="action" value="<?php echo esc_attr('qms_dev_team_save_my_custom_form9'); ?>" />
             <br>
             <label for="name" style="color: #000; font-weight: 600; margin-right: 20px;">Employee Name:</label>
             <label for="name" style="color: #000; font-weight: 600; margin-right: 250px;"><?php echo $name; ?></label>
@@ -827,7 +828,7 @@ function replyform_shortcode() {
     ?>
 <!-- message form -->
     <form id="messageform" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-        <input type="hidden" name="action" value="<?php echo esc_attr( 'messageformfu' ); ?>" />
+        <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_messageformfu' ); ?>" />
         
         <br>
                 <br> 
@@ -848,9 +849,9 @@ function replyform_shortcode() {
     <?php
 }
 
-add_shortcode('replyform_shortcode', 'replyform_shortcode');
+add_shortcode('replyform_shortcode', 'qms_dev_team_replyform_shortcode');
 
-function messageformfu() {
+function qms_dev_team_messageformfu() {
     $test_id = isset($_POST['id']) ? intval($_POST['id']) : 0; // query number 
 
 
@@ -901,11 +902,11 @@ function messageformfu() {
             }
 
 }
-add_action('admin_post_nopriv_messageformfu', 'messageformfu');
-add_action('admin_post_messageformfu', 'messageformfu');
+add_action('admin_post_nopriv_qms_dev_team_messageformfu', 'qms_dev_team_messageformfu');
+add_action('admin_post_qms_dev_team_messageformfu', 'qms_dev_team_messageformfu');
 
 // Query Form Updation
-function save_my_custom_form9() {
+function qms_dev_team_save_my_custom_form9() {
     $test_id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 
     global $wpdb;
@@ -947,16 +948,16 @@ function save_my_custom_form9() {
     }
 }
 
-add_action('admin_post_nopriv_save_my_custom_form9', 'save_my_custom_form9');
-add_action('admin_post_save_my_custom_form9', 'save_my_custom_form9');
+add_action('admin_post_nopriv_qms_dev_team_save_my_custom_form9', 'qms_dev_team_save_my_custom_form9');
+add_action('admin_post_qms_dev_team_save_my_custom_form9', 'qms_dev_team_save_my_custom_form9');
 
 
-function reportsystem_shortcode() {
+function qms_dev_team_reportsystem_shortcode() {
     ?>
 
 <h2>Select options to generate a report</h2><br><br>
 <form id="myRegisterationForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-    <input type="hidden" name="action" value="<?php echo esc_attr( 'save_my_custom_form8' ); ?>" />
+    <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form8' ); ?>" />
     <div class="test" style="display:flex; gap:10px;">
         <div>
             <label for="name" style=" font-weight: bold;">Name:</label><br><br>
@@ -1009,9 +1010,9 @@ function reportsystem_shortcode() {
 
     <?php
 }
-add_shortcode('reportsystem_shortcode', 'reportsystem_shortcode');
+add_shortcode('reportsystem_shortcode', 'qms_dev_team_reportsystem_shortcode');
 
-function save_my_custom_form8() {
+function qms_dev_team_save_my_custom_form8() {
 
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -1103,7 +1104,7 @@ function save_my_custom_form8() {
     <button style="color: #fff; text-decoration: none; margin-left:150px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;" onclick="printTable()">Print/Download Table</button>
     <?php
 }
-add_action('admin_post_nopriv_save_my_custom_form8', 'save_my_custom_form8');
-add_action('admin_post_save_my_custom_form8', 'save_my_custom_form8');
+add_action('admin_post_nopriv_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');
+add_action('admin_post_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');
 ?>
 
