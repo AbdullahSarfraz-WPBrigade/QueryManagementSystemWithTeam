@@ -531,44 +531,42 @@ function qms_dev_team_hrdashboard_shortcode() {
     $process_tickets = $wpdb->get_var($process);
 
 ?>
-
-<div class="head-section" style="background-color: #4dc3ff; display: flex;">
-                
-        <div class="hr-main" style="  display: flex; padding-top: 30px; padding-bottom: 30px;">
-            <div class="total-tickets" style="border: 3px solid #fff; border-radius: 10px; padding: 10px 20px; margin-left: 100px;">
-              <label style="color: #4d4dff ;">Total Tickets</label>
+<div class="head-section">
+<div class="hr-main">
+            <div class="total-tickets" style=" padding: 10px 20px; margin-left: 100px;">
+              <label style="color:black ;">Total Tickets</label>
                 <br>
-                <label style="padding: 15px 30px; color:black;" for="" value="35" name="35"><?php echo $total_tickets; ?></label>
+                <label style="padding: 15px 30px; color:blue;" for="" value="35" name="35"><?php echo $total_tickets; ?></label>
                 
             </div>
-            <div class="open-tickets" style=" border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 10px;">
+            <div class="open-tickets" style="margin-left: 10px; padding: 10px 10px;">
                 
-                <label style="color:#4d4dff;">Open/New Tickets</label>
+                <label style="color:black;">Open/New Tickets</label>
                 <br>
-                <label style="padding: 25px 50px; color:black;" for="" value="35" name="35"><?php echo $opened_tickets; ?></label>
+                <label style="padding: 25px 50px; color:brown;" for="" value="35" name="35"><?php echo $opened_tickets; ?></label>
             </div>
-            <div class="answered" style="border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 10px;">
+            <div class="answered" style="margin-left: 10px; padding: 10px 10px;">
                 
-                <label style="color:#4d4dff;">Answered </label>
+                <label style="color:black;">Answered </label>
                 <br>
-                <label style="padding: 5px 20px; color:black;" for="" value="35" name="35"><?php echo $answered_tickets; ?></label>
+                <label style="padding: 5px 20px; color:green; " for="" value="35" name="35"><?php echo $answered_tickets; ?></label>
             </div>
             
-            <div class="pending" style=" border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 10px;">
+            <div class="pending" style="margin-left: 10px; padding: 10px 10px;">
                 
-                <label style="color:#4d4dff;">Pending</label>
+                <label style="color:black;">Pending</label>
                 <br>
-                <label style="padding: 5px 20px; color:black;" for="" value="35" name="35"><?php echo $pending_tickets; ?></label>
+                <label style="padding: 5px 20px; color:2a0d0d;" for="" value="35" name="35"><?php echo $pending_tickets; ?></label>
             </div>
-            <div class="declined" style=" border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 20px;">
+            <div class="declined" style="margin-left: 10px; padding: 10px 20px;">
                 
-                <label style="color:#4d4dff;">Declined</label>
+                <label style="color:black;">Declined</label>
                 <br>
-                <label style="padding: 5px 20px; color:black;" for="" value="35" name="35"><?php echo $decline_tickets; ?></label>
+                <label style="padding: 5px 20px; color:red;" for="" value="35" name="35"><?php echo $decline_tickets; ?></label>
             </div>
-            <div class="process" style=" border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 20px;">
+            <div class="process" style="margin-left: 10px; padding: 10px 20px;">
                 
-                <label style="color:#4d4dff;">In Process</label>
+                <label style="color:black;">In Process</label>
                 <br>
                 <label style="padding: 5px 20px; color:black;" for="" value="35" name="35"><?php echo $process_tickets; ?></label>
             </div>
@@ -576,9 +574,12 @@ function qms_dev_team_hrdashboard_shortcode() {
 
         <div style=" margin-top: 45px; text-align: center; margin-left: 320px;">
             <form method="post" >
-                <button type="submit" name="logout" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Logout</button>
-            </form>    
+               <div class="hr-logout" >
+                <button type="submit" name="hr-logout" class="hr-logout" style="padding: 10px 10px;  border-radius: 18px; border: none; outline: none;" >Logout</button>
 
+            </div>
+            <br>
+            </form>  
             <?php
                 // Check if the logout parameter is present in the URL
                 if (isset($_POST['logout']) && $_POST['logout'] == 1) {
@@ -598,13 +599,15 @@ function qms_dev_team_hrdashboard_shortcode() {
         wp_redirect(home_url('/wp-login.php'));
         exit();
     }
-?>      
+?>    
+ <a href="/reportingsystem" style="color: black; text-decoration: none; padding: 5px 10px; background-color: rgb(194, 207, 231); border-radius: 18px; border: none; outline: none;">View and print Reports</a>  
         </div>
+</div>
 </div>
     <br><br>
 
     <div>
-        <a href="/reportingsystem" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">View and print Reports</a>
+       
     </div>
     <br><br>
     <div class="search-section" style="display: flex;">
@@ -1126,4 +1129,20 @@ function qms_dev_team_save_my_custom_form8() {
 add_action('admin_post_nopriv_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');
 add_action('admin_post_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
