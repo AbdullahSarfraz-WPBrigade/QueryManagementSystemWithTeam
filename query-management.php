@@ -155,6 +155,7 @@ register_activation_hook( __FILE__, 'qms_dev_team_create_table_for_messages_on_a
 
 //creating shortcode of the Query Form page
 function qms_dev_team_querform_shortcode() {
+    ob_start();
 
     $current_user = wp_get_current_user();
 
@@ -281,6 +282,7 @@ function qms_dev_team_querform_shortcode() {
 
                         </script>
     <?php   
+    return ob_get_clean();
 }
 
 add_shortcode('my_queryform_shortcode', 'qms_dev_team_querform_shortcode');
@@ -376,6 +378,8 @@ add_action( 'admin_post_qms_dev_team_save_my_custom_form5', 'qms_dev_team_save_m
 
 //creating shortcode for the Employee Dashboard
 function qms_dev_team_employee_shortcode() {
+
+    ob_start();
 
 if (is_user_logged_in()) {
     // Get the current user object
@@ -489,12 +493,16 @@ if (is_user_logged_in()) {
     </div>
 
     <?php
+    return ob_get_clean();
 }
 
 add_shortcode('employee_shortcode', 'qms_dev_team_employee_shortcode');
 
 // shortcode for the HR Dashboard page
 function qms_dev_team_hrdashboard_shortcode() {
+
+    ob_start();
+
     global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
 
@@ -698,6 +706,8 @@ function qms_dev_team_hrdashboard_shortcode() {
                 'total' => $total_pages,
                 'current' => $current_page,
             ));
+
+            return ob_get_clean();
                         
 }
 
@@ -706,6 +716,9 @@ add_shortcode('hrdashboard_shortcode', 'qms_dev_team_hrdashboard_shortcode');
 
 // shortcode for the HR Update form Page
 function qms_dev_team_replyform_shortcode() {
+
+    ob_start();
+
     $test_id = isset($_GET['id']) ? $_GET['id'] : '';
     $user_type = isset($_GET['type']) ? $_GET['type'] : '';
     
@@ -850,6 +863,7 @@ function qms_dev_team_replyform_shortcode() {
     </form>
 
     <?php
+    return ob_get_clean();
 }
 
 add_shortcode('replyform_shortcode', 'qms_dev_team_replyform_shortcode');
@@ -956,6 +970,7 @@ add_action('admin_post_qms_dev_team_save_my_custom_form9', 'qms_dev_team_save_my
 
 
 function qms_dev_team_reportsystem_shortcode() {
+    ob_start();
     ?>
 
 <h2>Select options to generate a report</h2><br><br>
@@ -1012,6 +1027,7 @@ function qms_dev_team_reportsystem_shortcode() {
 </form>
 
     <?php
+    return ob_get_clean();
 }
 add_shortcode('reportsystem_shortcode', 'qms_dev_team_reportsystem_shortcode');
 
