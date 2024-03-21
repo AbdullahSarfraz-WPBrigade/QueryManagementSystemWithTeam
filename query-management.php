@@ -119,8 +119,11 @@ function create_table_for_queries_on_activation() {
         description TEXT NOT NULL,
         answers TEXT NOT NULL,
         file_path VARCHAR(255) NULL  DEFAULT 'none.jpg',
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY (id)
 	  );";
+
+  
 
     // Execute the SQL query to create the voter table
     $wpdb->query($sql);
