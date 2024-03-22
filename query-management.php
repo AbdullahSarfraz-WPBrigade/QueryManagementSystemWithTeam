@@ -7,7 +7,6 @@ Author:  (Abdullah Sarfraz, Ruqyya, Ahmad)
 Author URI: http://querymanagement.local/
 */
 
-
 // Define a function to enqueue your CSS file
 function qms_dev_team_my_plugin_enqueue_styles() {
     // Enqueue your CSS file
@@ -161,6 +160,7 @@ register_activation_hook( __FILE__, 'qms_dev_team_create_table_for_messages_on_a
 
 //creating shortcode of the Query Form page
 function qms_dev_team_querform_shortcode() {
+    ob_start();
 
     $current_user = wp_get_current_user();
 
@@ -287,6 +287,7 @@ function qms_dev_team_querform_shortcode() {
 
                         </script>
     <?php   
+    return ob_get_clean();
 }
 
 add_shortcode('my_queryform_shortcode', 'qms_dev_team_querform_shortcode');
@@ -383,6 +384,8 @@ add_action( 'admin_post_qms_dev_team_save_my_custom_form5', 'qms_dev_team_save_m
 //creating shortcode for the Employee Dashboard
 function qms_dev_team_employee_shortcode() {
 
+    ob_start();
+
 if (is_user_logged_in()) {
     // Get the current user object
     $current_user = wp_get_current_user();
@@ -429,6 +432,17 @@ if (is_user_logged_in()) {
             <a href="<?php echo esc_url( site_url( '/query-form' ) ); ?>" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Create a Query</a>
         </div>
         <br>
+
+        <form id="date-filter-form" method="get" action="<?php echo esc_url( site_url( '/query-page' ) ); ?>">
+        <label for="date" style="color: #000; font-weight: 600; margin-right: 20px;">Starting Date:</label>
+        <input type="date" name="" id="" placholder="Starting Date">
+        <label for="date" style="color: #000; font-weight: 600; margin-right: 20px; margin-left: 50px;">Ending Date:</label>
+        <input type="date" name="" id="" placholder="Ending Date">                           
+
+    <button type="submit" name="filter_queries" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none; margin-left: 50px;">Filter</button>
+</form>
+
+
 
         <div class="queries-table">
             <h4 style="font-size: 32px; text-align: center; font-family: 'oswald', sans-serif;">Your Queries</h4>
@@ -495,12 +509,16 @@ if (is_user_logged_in()) {
     </div>
 
     <?php
+    return ob_get_clean();
 }
 
 add_shortcode('employee_shortcode', 'qms_dev_team_employee_shortcode');
 
 // shortcode for the HR Dashboard page
 function qms_dev_team_hrdashboard_shortcode() {
+
+    ob_start();
+
     global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
 
@@ -529,44 +547,42 @@ function qms_dev_team_hrdashboard_shortcode() {
     $process_tickets = $wpdb->get_var($process);
 
 ?>
-
-<div class="head-section" style="background-color: #4dc3ff; display: flex;">
-                
-        <div class="hr-main" style="  display: flex; padding-top: 30px; padding-bottom: 30px;">
-            <div class="total-tickets" style="border: 3px solid #fff; border-radius: 10px; padding: 10px 20px; margin-left: 100px;">
-              <label style="color: #4d4dff ;">Total Tickets</label>
+<div class="head-section">
+<div class="hr-main">
+            <div class="total-tickets" style=" padding: 10px 20px; margin-left: 100px;">
+              <label style="color:black ;">Total Tickets</label>
                 <br>
-                <label style="padding: 15px 30px; color:black;" for="" value="35" name="35"><?php echo $total_tickets; ?></label>
+                <label style="padding: 15px 30px; color:blue;" for="" value="35" name="35"><?php echo $total_tickets; ?></label>
                 
             </div>
-            <div class="open-tickets" style=" border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 10px;">
+            <div class="open-tickets" style="margin-left: 10px; padding: 10px 10px;">
                 
-                <label style="color:#4d4dff;">Open/New Tickets</label>
+                <label style="color:black;">Open/New Tickets</label>
                 <br>
-                <label style="padding: 25px 50px; color:black;" for="" value="35" name="35"><?php echo $opened_tickets; ?></label>
+                <label style="padding: 25px 50px; color:brown;" for="" value="35" name="35"><?php echo $opened_tickets; ?></label>
             </div>
-            <div class="answered" style="border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 10px;">
+            <div class="answered" style="margin-left: 10px; padding: 10px 10px;">
                 
-                <label style="color:#4d4dff;">Answered </label>
+                <label style="color:black;">Answered </label>
                 <br>
-                <label style="padding: 5px 20px; color:black;" for="" value="35" name="35"><?php echo $answered_tickets; ?></label>
+                <label style="padding: 5px 20px; color:green; " for="" value="35" name="35"><?php echo $answered_tickets; ?></label>
             </div>
             
-            <div class="pending" style=" border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 10px;">
+            <div class="pending" style="margin-left: 10px; padding: 10px 10px;">
                 
-                <label style="color:#4d4dff;">Pending</label>
+                <label style="color:black;">Pending</label>
                 <br>
-                <label style="padding: 5px 20px; color:black;" for="" value="35" name="35"><?php echo $pending_tickets; ?></label>
+                <label style="padding: 5px 20px; color:2a0d0d;" for="" value="35" name="35"><?php echo $pending_tickets; ?></label>
             </div>
-            <div class="declined" style=" border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 20px;">
+            <div class="declined" style="margin-left: 10px; padding: 10px 20px;">
                 
-                <label style="color:#4d4dff;">Declined</label>
+                <label style="color:black;">Declined</label>
                 <br>
-                <label style="padding: 5px 20px; color:black;" for="" value="35" name="35"><?php echo $decline_tickets; ?></label>
+                <label style="padding: 5px 20px; color:red;" for="" value="35" name="35"><?php echo $decline_tickets; ?></label>
             </div>
-            <div class="process" style=" border: 3px solid #fff; border-radius: 10px; margin-left: 10px; padding: 10px 20px;">
+            <div class="process" style="margin-left: 10px; padding: 10px 20px;">
                 
-                <label style="color:#4d4dff;">In Process</label>
+                <label style="color:black;">In Process</label>
                 <br>
                 <label style="padding: 5px 20px; color:black;" for="" value="35" name="35"><?php echo $process_tickets; ?></label>
             </div>
@@ -574,9 +590,12 @@ function qms_dev_team_hrdashboard_shortcode() {
 
         <div style=" margin-top: 45px; text-align: center; margin-left: 320px;">
             <form method="post" >
-                <button type="submit" name="logout" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Logout</button>
-            </form>    
+               <div class="hr-logout" >
+                <button type="submit" name="hr-logout" class="hr-logout" style="padding: 10px 10px;  border-radius: 18px; border: none; outline: none;" >Logout</button>
 
+            </div>
+            <br>
+            </form>  
             <?php
                 // Check if the logout parameter is present in the URL
                 if (isset($_POST['logout']) && $_POST['logout'] == 1) {
@@ -596,13 +615,15 @@ function qms_dev_team_hrdashboard_shortcode() {
         wp_redirect(home_url('/wp-login.php'));
         exit();
     }
-?>      
+?>    
+ <a href="/reportingsystem" style="color: black; text-decoration: none; padding: 5px 10px; background-color: rgb(194, 207, 231); border-radius: 18px; border: none; outline: none;">View and print Reports</a>  
         </div>
+</div>
 </div>
     <br><br>
 
     <div>
-        <a href="/reportingsystem" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">View and print Reports</a>
+       
     </div>
     <br><br>
     <div class="search-section" style="display: flex;">
@@ -704,6 +725,8 @@ function qms_dev_team_hrdashboard_shortcode() {
                 'total' => $total_pages,
                 'current' => $current_page,
             ));
+
+            return ob_get_clean();
                         
 }
 
@@ -712,6 +735,9 @@ add_shortcode('hrdashboard_shortcode', 'qms_dev_team_hrdashboard_shortcode');
 
 // shortcode for the HR Update form Page
 function qms_dev_team_replyform_shortcode() {
+
+    ob_start();
+
     $test_id = isset($_GET['id']) ? $_GET['id'] : '';
     $user_type = isset($_GET['type']) ? $_GET['type'] : '';
     
@@ -856,6 +882,7 @@ function qms_dev_team_replyform_shortcode() {
     </form>
 
     <?php
+    return ob_get_clean();
 }
 
 add_shortcode('replyform_shortcode', 'qms_dev_team_replyform_shortcode');
@@ -962,6 +989,7 @@ add_action('admin_post_qms_dev_team_save_my_custom_form9', 'qms_dev_team_save_my
 
 
 function qms_dev_team_reportsystem_shortcode() {
+    ob_start();
     ?>
 
 <h2>Select options to generate a report</h2><br><br>
@@ -1018,6 +1046,7 @@ function qms_dev_team_reportsystem_shortcode() {
 </form>
 
     <?php
+    return ob_get_clean();
 }
 add_shortcode('reportsystem_shortcode', 'qms_dev_team_reportsystem_shortcode');
 
@@ -1116,4 +1145,20 @@ function qms_dev_team_save_my_custom_form8() {
 add_action('admin_post_nopriv_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');
 add_action('admin_post_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
