@@ -7,7 +7,6 @@ Author:  (Abdullah Sarfraz, Ruqyya, Ahmad)
 Author URI: http://querymanagement.local/
 */
 
-
 // Define a function to enqueue your CSS file
 function my_plugin_enqueue_styles() {
     // Enqueue your CSS file
@@ -422,6 +421,17 @@ if (is_user_logged_in()) {
             <a href="<?php echo esc_url( site_url( '/query-form' ) ); ?>" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Create a Query</a>
         </div>
         <br>
+
+        <form id="date-filter-form" method="get" action="<?php echo esc_url( site_url( '/query-page' ) ); ?>">
+        <label for="date" style="color: #000; font-weight: 600; margin-right: 20px;">Starting Date:</label>
+        <input type="date" name="" id="" placholder="Starting Date">
+        <label for="date" style="color: #000; font-weight: 600; margin-right: 20px; margin-left: 50px;">Ending Date:</label>
+        <input type="date" name="" id="" placholder="Ending Date">                           
+
+    <button type="submit" name="filter_queries" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none; margin-left: 50px;">Filter</button>
+</form>
+
+
 
         <div class="queries-table">
             <h4 style="font-size: 32px; text-align: center; font-family: 'oswald', sans-serif;">Your Queries</h4>
