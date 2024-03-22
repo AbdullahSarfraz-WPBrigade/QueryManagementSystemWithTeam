@@ -183,7 +183,7 @@ function qms_dev_team_querform_shortcode() {
     $user_id = get_current_user_id();
     ?>
 
-                        </div class="main-form" >
+                        <div class="main-form" >
                             <form id="myQueryForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
                                 <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form4' ); ?>" />
                                         <br>
@@ -285,17 +285,26 @@ function qms_dev_team_querform_shortcode() {
                             
                             </form>
 
-                            
+                            <button class="public_btn">Send a public Query</button>
                         </div>
 
                         <script>
 
                         const secondDiv = document.getElementsByClassName ('second-form')[0];
                         const leftClick = document.getElementsByClassName ('anonymous')[0];
+                        const firstDiv = document.getElementsByClassName ('main-form')[0];
+                        const rightClick = document.getElementsByClassName ('public_btn')[0];
 
                         leftClick.addEventListener('click', ()=> {
                             
                             secondDiv.style.display = 'block';
+                            firstDiv.style.display = 'none';
+                        });
+
+                        rightClick.addEventListener('click', ()=> {
+                            secondDiv.style.display = 'none';
+                            firstDiv.style.display = 'block';
+
                         });
 
                         </script>
@@ -776,7 +785,7 @@ function qms_dev_team_replyform_shortcode() {
         
     }
     ?>
-    <div class="main-form">
+    <div class="main_form">
         <form id="updateform" action="<?php echo esc_attr(admin_url('admin-post.php')); ?>" method="POST">
             <input type="hidden" name="action" value="<?php echo esc_attr('qms_dev_team_save_my_custom_form9'); ?>" />
             <br>
