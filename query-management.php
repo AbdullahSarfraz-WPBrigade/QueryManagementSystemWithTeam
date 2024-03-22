@@ -131,6 +131,12 @@ function qms_dev_team_create_table_for_queries_on_activation() {
 
 register_activation_hook(__FILE__, 'qms_dev_team_create_table_for_queries_on_activation');
 
+function qms_dev_team_disabled_chatboxes() {
+    global $wpdb;
+
+    
+}
+
 // DATABASE 
 function qms_dev_team_create_table_for_messages_on_activation() {
     global $wpdb;
