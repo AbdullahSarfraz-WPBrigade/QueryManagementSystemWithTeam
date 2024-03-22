@@ -133,8 +133,21 @@ register_activation_hook(__FILE__, 'qms_dev_team_create_table_for_queries_on_act
 function qms_dev_team_disabled_chatboxes() {
     global $wpdb;
 
+    $table_name = $wpdb->prefix . 'disabledchatboxes';
+
+    $sql = "CREATE TABLE $table_name(
+        id int(11) NOT NULL AUTO_INCREMENT,
+        email_id varchar(50) NOT NULL,
+        queryno varchar(50) NOT NULL,
+        identity varchar (100) NOT NULL,
+        PRIMARY KEY (id)
+    );";
+
+    $wpdb->query($sql);
     
 }
+
+register_activation_hook(__FILE__, 'qms_dev_team_disabled_chatboxes');
 
 // DATABASE 
 function qms_dev_team_create_table_for_messages_on_activation() {
