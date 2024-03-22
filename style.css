@@ -91,7 +91,7 @@ button:hover {
 /* Hr  Dashboard */
 
 .head-section {
-    background-color:midnightblue;
+    background-color:rgb(215, 215, 225);
     display: flex;
 
 }
@@ -108,16 +108,21 @@ button:hover {
 .pending,
 .declined,
 .process {
-    background-color:rgb(194, 207, 231);
+    background-color:rgb(228, 228, 238);
     border-radius: 10px;
 }
 .hr-logout{
-    background-color:rgb(194, 207, 231);
-    color: black;
+    background-color:  rgb(7, 7, 61);
+    color: #fff;
     border-radius: 18px;
+    cursor: pointer;
 
 }
 
 .hr-logout:hover{
-    background-color: cornflowerblue;
+    background-color: rgb(7, 7, 61);
+}
+
+tr:nth-child(odd){
+    background-color:rgb(228, 228, 238);
 }

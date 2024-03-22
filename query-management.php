@@ -601,7 +601,7 @@ function qms_dev_team_hrdashboard_shortcode() {
             </div>
         </div>
 
-        <div style=" margin-top: 45px; text-align: center; margin-left: 320px;">
+        <div style=" margin-top: 45px; text-align: center; margin-left: 400px;">
             <form method="post" >
                <div class="hr-logout" >
                 <button type="submit" name="hr-logout" class="hr-logout" style="padding: 10px 10px;  border-radius: 18px; border: none; outline: none;" >Logout</button>
@@ -630,7 +630,9 @@ function qms_dev_team_hrdashboard_shortcode() {
     }
 ?>    
  <a href="/reportingsystem" style="color: black; text-decoration: none; padding: 5px 10px; background-color: rgb(194, 207, 231); border-radius: 18px; border: none; outline: none;">View and print Reports</a>  
-        </div>
+ <br>        
+</div>
+        
 </div>
 </div>
     <br><br>
@@ -644,15 +646,16 @@ function qms_dev_team_hrdashboard_shortcode() {
     </div>
     <br>
     <br>
-    <table style="font-size: 18px; font-family: 'oswald', sans-serif; border-collapse: collapse; width: 88%; margin-left: 70px;">
+    
+    <table style="font-size: 18px; font-family: 'oswald', sans-serif; border-collapse: collapse; width: 88%; margin-left: 70px; ">
         <tr>
-          <th name="name" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Name</th>
-          <th name="email" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Email</th>
-          <th name="details" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Details</th>
-          <th name="category" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Category</th>
-          <th name="status" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Status</th>
-          <th name="priority" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Priority</th>
-          <th name="update" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Update</th>
+          <th name="name" style=" border: 1px solid rgb(7, 7, 61); background-color: rgb(7, 7, 61); color: #fff; padding-top: 5px; padding-right: 2px;">Name</th>
+          <th name="email" style=" border: 1px solid rgb(7, 7, 61); background-color: rgb(7, 7, 61); color: #fff; padding-top: 5px; padding-right: 2px;">Email</th>
+          <th name="details" style=" border: 1px solid rgb(7, 7, 61); background-color: rgb(7, 7, 61); color: #fff; padding-top: 5px; padding-right: 2px;">Details</th>
+          <th name="category" style=" border: 1px solid rgb(7, 7, 61); background-color: rgb(7, 7, 61); color: #fff; padding-top: 5px; padding-right: 2px;">Category</th>
+          <th name="status" style=" border: 1px solid rgb(7, 7, 61); background-color: rgb(7, 7, 61); color: #fff; padding-top: 5px; padding-right: 2px;">Status</th>
+          <th name="priority" style=" border: 1px solid rgb(7, 7, 61); background-color: rgb(7, 7, 61); color: #fff; padding-top: 5px; padding-right: 2px;">Priority</th>
+          <th name="update" style=" border: 1px solid rgb(7, 7, 61); background-color: rgb(7, 7, 61); color: #fff; padding-top: 5px; padding-right: 2px;">Update</th>
         </tr>
 
         <?php
@@ -694,26 +697,26 @@ function qms_dev_team_hrdashboard_shortcode() {
                             if($name == "anonymous") {
                                     echo "
                                     <tr>
-                                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>Anonymous</th>
-                                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>Anonymous</th>
-                                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$description</th>
-                                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
-                                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
-                                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
-                                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
+                                    <th color: #000; padding-top: 5px; padding-right: 2px;'>Anonymous</th>
+                                    <th color: #000; padding-top: 5px; padding-right: 2px;'>Anonymous</th>
+                                    <th color: #000; padding-top: 5px; padding-right: 2px;'>$description</th>
+                                    <th color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
+                                    <th color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
+                                    <th color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
+                                    <th color: #000; padding-top: 5px; padding-right: 2px;'>
                                         <a href='/replyform?id=$queryId&type=$user_type'>Update</a>
                                     </tr>
                                 "; 
                             }else{
                                 echo "
                                 <tr>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$name</th>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$email</th>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$description</th>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
-                                <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
+                                <th  color: #000; padding-top: 5px; padding-right: 2px;'>$name</th>
+                                <th  color: #000; padding-top: 5px; padding-right: 2px;'>$email</th>
+                                <th  color: #000; padding-top: 5px; padding-right: 2px;'>$description</th>
+                                <th  color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
+                                <th  color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
+                                <th  color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
+                                <th  color: #000; padding-top: 5px; padding-right: 2px;'>
                                     <a href='/replyform?id=$queryId&type=$user_type'>Update</a>
                                 </tr>
                                 "; 
@@ -725,6 +728,7 @@ function qms_dev_team_hrdashboard_shortcode() {
                                 
                         } ?>
       </table>
+
 
 
 
