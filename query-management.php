@@ -487,7 +487,6 @@ if (is_user_logged_in()) {
                             
                             $id = $row["id"];
                             $category = $row["category"];
-                            // $description = $row["description"];
                             $description =  wp_trim_words( $row['description'], 8 ) ;
                             $answers = $row["answers"];
                             $status = $row["status"];
@@ -764,7 +763,7 @@ function qms_dev_team_replyform_shortcode() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'queryform';
 
-    $query = $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $test_id);
+    $query = $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $test_id); //prepare
     $rows = $wpdb->get_results($query);
 
     foreach ($rows as $row) {
@@ -816,6 +815,7 @@ function qms_dev_team_replyform_shortcode() {
                 <option value="Pending">Pending</option>
                 <option value="Declined">Declined</option>
                 <option value="In Process">In Process</option>
+                
             </select>
             <br>
             <br>
@@ -844,11 +844,7 @@ function qms_dev_team_replyform_shortcode() {
         
         
 
-        $sql = $wpdb->prepare(
-            "SELECT * FROM $table_name WHERE email_id = %s AND queryno = %s ORDER BY timestamp ASC",
-            $email,
-            $test_id
-        );
+        $sql = $wpdb->prepare("SELECT * FROM $table_name WHERE email_id = %s AND queryno = %s ORDER BY timestamp ASC", $email, $test_id );
         
         // Execute the SQL query
         $results = $wpdb->get_results($sql, ARRAY_A);
@@ -878,31 +874,109 @@ function qms_dev_team_replyform_shortcode() {
         }
 
     ?>
-<!-- message form -->
-    <form id="messageform" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-        <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_messageformfu' ); ?>" />
-        
-        <br>
-                <br> 
-                <label for="desc" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Reply:</label>
-                <br>
-                <br> 
-                <textarea id="desc" name="messagetosend" rows="4" cols="50" style=" outline: none;">   
-                </textarea>
-        <br>
-                <input type="hidden" name="mail_id" value="<?php echo $email; ?>">
-                <input type="hidden" name="id" value="<?php echo $test_id; ?>">
-                <input type="hidden" name="type" value="<?php echo $user_type; ?>">
-        <br> 
-        <input type="submit" name="msgbtn_one" value="Send" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
-        <br>
-    </form>
+
 
     <?php
+
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'disabledchatboxes';
+
+    
+    $data_closed = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE email_id = %s AND queryno = %s AND identity = %s", $email, $test_id, $user_type);
+    $closed_query = $wpdb->get_var($data_closed);
+
+    if($closed_query>0){
+        echo '<br><br><br><h3>Query Closed from your Side</h3>';
+    }else{
+        ?>
+
+        <!-- message form -->
+            <form id="messageform" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
+                <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_messageformfu' ); ?>" />
+                
+                <br>
+                        <br> 
+                        <label for="desc" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Reply:</label>
+                        <br>
+                        <br> 
+                        <textarea id="desc" name="messagetosend" rows="4" cols="50" style=" outline: none;">   
+                        </textarea>
+                <br>
+                        <input type="hidden" name="mail_id" value="<?php echo $email; ?>">
+                        <input type="hidden" name="id" value="<?php echo $test_id; ?>">
+                        <input type="hidden" name="type" value="<?php echo $user_type; ?>">
+                <br> 
+                <input type="submit" name="msgbtn_one" value="Send" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
+                <br>
+            </form>
+
+            <form id="closingbtnform" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
+                    <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_closing_query' ); ?>" />
+                    
+                    
+                            <input type="hidden" name="mail_id" value="<?php echo $email; ?>">
+                            <input type="hidden" name="id" value="<?php echo $test_id; ?>">
+                            <input type="hidden" name="type" value="<?php echo $user_type; ?>">
+                    <br> 
+                    <input type="submit" name="msgbtn_two" value="Close the Query" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
+                    <br>
+            </form>
+        <?php
+    }
+    
     return ob_get_clean();
 }
 
 add_shortcode('replyform_shortcode', 'qms_dev_team_replyform_shortcode');
+
+function qms_dev_team_closing_query() {
+    $test_id = isset($_POST['id']) ? intval($_POST['id']) : 0; // query number 
+
+
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'disabledchatboxes';
+
+    
+    $email = sanitize_text_field($_POST['mail_id']);
+    $user_type = sanitize_text_field($_POST['type']); // identity
+
+    $check = $wpdb->insert(
+        $table_name,
+         array(
+            'email_id' => $email,
+            'queryno' => $test_id,
+            'identity' => $user_type,
+        
+        ),
+        
+        array( '%s', '%d', '%s' )
+    );
+
+    if ($check) {
+
+        if($check && $user_type == 'employee') {
+            echo "<script>alert('Query Closed from your Side !'); window.location.href = '" . site_url("/replyform/?id=$test_id&type=employee") . "';</script>";
+            exit;
+        }elseif($check && $user_type == 'hr') {
+            echo "<script>alert('Query Closed from your Side !'); window.location.href = '" . site_url("/replyform/?id=$test_id&type=hr") . "';</script>";
+
+            exit;
+        }else {
+            echo "<script>alert('Query not closed, go to dashboard and comeback here again: " . $wpdb->last_error . "')</script>";
+            $wpdb->print_error();
+        }
+
+
+    } else {
+
+        echo "<script>alert('Query not closed, go to dashboard and comeback here again: " . $wpdb->last_error . "')</script>";
+        $wpdb->print_error();
+    }
+
+
+}
+add_action('admin_post_nopriv_qms_dev_team_closing_query', 'qms_dev_team_closing_query');
+add_action('admin_post_qms_dev_team_closing_query', 'qms_dev_team_closing_query');
 
 function qms_dev_team_messageformfu() {
     $test_id = isset($_POST['id']) ? intval($_POST['id']) : 0; // query number 
