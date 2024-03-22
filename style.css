@@ -41,7 +41,7 @@ h1 {
     
 }
 
-button {
+.landing-button {
     background-color: #007bff; /* Blue color, adjust as needed */
     color: #fff;
     padding: 10px 20px;
@@ -56,3 +56,68 @@ button:hover {
     background-color: #0056b3; /* Darker blue color on hover */
 }
 
+
+.main-form, .second-form {
+    margin: 0 auto; /* Center horizontally */
+    max-width: 450px; /* Limit width */
+    padding: 25px 25px 25px 25px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color:#acb3b7a7 ;
+    margin-bottom: 20px; /* Add some space between forms */
+}
+
+.second-form {
+    display: none; /* Hide the second form by default */
+}
+
+.main-form h2, .second-form h2 {
+    color: blue;
+}
+
+.anonymous {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.anonymous:hover {
+    background-color: #0056b3;
+}
+
+/* Hr  Dashboard */
+
+.head-section {
+    background-color:midnightblue;
+    display: flex;
+
+}
+
+.hr-main {
+    display:flex;
+    padding-top: 30px;
+    padding-bottom:30px;
+}
+
+.total-tickets,
+.open-tickets,
+.answered,
+.pending,
+.declined,
+.process {
+    background-color:rgb(194, 207, 231);
+    border-radius: 10px;
+}
+.hr-logout{
+    background-color:rgb(194, 207, 231);
+    color: black;
+    border-radius: 18px;
+
+}
+
+.hr-logout:hover{
+    background-color: cornflowerblue;
+}
