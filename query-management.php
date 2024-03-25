@@ -185,54 +185,52 @@ function qms_dev_team_querform_shortcode() {
         
         ?>
     
-            <div class="main-form" >
-                <form id="myQueryForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-                    <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form4' ); ?>" />
-                            <br>
-                        
-                            <label for="name" style="color: #000; font-weight: 600; margin-right: 20px;">Your Name:</label>
-                            <label for="nameoutput" style="color: #000; font-weight: 600; margin-right: 20px;"><?php echo $user_name; ?></label>
-                                
-                            <input type="hidden" id="name" name="name" value="<?php echo $user_name; ?>" />  
-                            <br>    
-                            <br>   
-                            <label for="e1" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 20px;">Email:</label>
-                            <label for="e_output" ><?php echo $user_email; ?></label>
-                            
-                            <input type="hidden" name="email" value="<?php echo $user_email; ?>" />
-                            <br>
-                            <br> 
-                            <label for="category" style="color: #000; font-weight: 600; margin-top: 5px;">Query Category:</label>
-                            <select name="category" id="category" style="border: none; outline: none;">
-                                <option value="General">General</option>
-                                <option value="Technical">Technical</option>
-                                <option value="Hardware">Hardware</option>
-                                <option value="Software">Software</option>
-                            </select>
-                            <label for="priority" style="color: #000; font-weight: 600; margin-top: 5px;">Priority:</label>
-                            <select name="priority" id="priority" style="border: none; outline: none;">
-                                <option value="High">High</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Low">Low</option>
-                            </select>
-                            <br>
-                            <br> 
-                            <label for="desc" style="color: #000; font-weight: 600; margin-top: 5px; margin-right: 285px;">Description:</label>
-                            <br>
-                            <br> 
-                            <textarea id="desc" name="desc" rows="4" cols="50" style=" outline: none;">   
-                            </textarea>
-                            
-                            <br>
-                            <br> 
-                            <input type="submit" name="querybtn_one" value="Submit Query" style="padding: 8px 25px; border-radius: 14px; color: #fff; background-color: green;">
-                            <br>
-                        
-                </form>
+    </div class="main-form" >
+                            <form id="myQueryForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
+                                <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form4' ); ?>" />
+                                        <br>
+                                   
+                                        <label for="name" style="color: #000; font-weight: 600; margin-right: 20px;">Your Name:</label>
+                                        <label for="nameoutput" style="color: #000; font-weight: 600; margin-right: 20px;"><?php echo $user_name; ?></label>
+                                           
+                                        <input type="hidden" id="name" name="name" value="<?php echo $user_name; ?>" />  
+                                        <br>    
+                                        <br>   
+                                        <label for="e1" style="color: #000; font-weight: 600; margin-top: 3px; margin-right: 20px;">Email:</label>
+                                        <label for="e_output" ><?php echo $user_email; ?></label>
+                                        
+                                        <input type="hidden" name="email" value="<?php echo $user_email; ?>" />
+                                        <br>
+                                        <br> 
+                                        <label for="category" style="color: #000; font-weight: 600; margin-top: px;">Query Category:</label>
+                                        <select name="category" id="category" style="border: none; outline: none; border-radius:6px; padding: 10px;">
+                                            <option value="General">General</option>
+                                            <option value="Technical">Technical</option>
+                                            <option value="Hardware">Hardware</option>
+                                            <option value="Software">Software</option>
+                                        </select>
+                                        <label for="priority" style="color: #000; font-weight: 600; margin-top: 3px;">Priority:</label>
+                                        <select name="priority" id="priority" style="border: none; outline: none; border-radius:6px; padding: 10px;">
+                                            <option value="High">High</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="Low">Low</option>
+                                        </select>
+                                        <br>
+                                        <br> 
+                                        <label for="desc" style="color: #000; font-weight: 600; margin-top: 3px; margin-right: 285px;">Description:</label>
+                                        <br>
+                                        <br> 
+                                        <textarea id="desc" name="desc" rows="6" cols="50" style=" outline: none; border-radius:6px; border:0px;">   
+                                        </textarea>
+                                        
+                                        <br>
+                                        <br> 
+                                        <input type="submit" name="querybtn_one" value="Submit Query" style="padding: 8px 25px; border-radius: 6px; color: #fff; background-color: midnightblue;">
+                                        <br>
+                                        <button class="anonymous">Send a Anonymous Query</button>
+                        </div>   
+                            </form>
 
-                
-                <button class="anonymous">Send a Anonymous Query</button>
-            </div>   
 
         <!-- Second Anonymous Form -->
             <div class="second-form" style=" display: none;">
@@ -584,7 +582,7 @@ function qms_dev_team_hrdashboard_shortcode() {
         $process_tickets = $wpdb->get_var($process);
     
         ?>
-        <div class="head-section">
+        <div class="stats-section">
             <div class="hr-main">
                 <div class="total-tickets" style=" padding: 10px 20px; margin-left: 100px;">
                   <label style="color:black ;">Total Tickets</label>

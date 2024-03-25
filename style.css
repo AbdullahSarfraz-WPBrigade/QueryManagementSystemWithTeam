@@ -1,98 +1,9 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-.full-page-background {
-    background-image: url('./assets/bgimg.jpg'); /* Adjust the path to your background image */
-    background-size: cover;
-    background-position: center;
-    width: 100vw; /* 100% of viewport width */
-    height: 100vh; /* 100% of viewport height */
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1; /* Ensure it's behind other content */
-}
-
-.login-container {
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
-    background-size: cover;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-h1 {
-    color: #2a0d0d;
-}
-
-.description {
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 2;
-    color: #333;
-    margin-bottom: 20px;
-    max-width: 10px;
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    
-}
-
-.landing-button {
-    background-color: #007bff; /* Blue color, adjust as needed */
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.5s;
-}
-
-button:hover {
-    background-color: #0056b3; /* Darker blue color on hover */
-}
-
-
-.main-form, .second-form {
-    margin: 0 auto; /* Center horizontally */
-    max-width: 450px; /* Limit width */
-    padding: 25px 25px 25px 25px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color:#acb3b7a7 ;
-    margin-bottom: 20px; /* Add some space between forms */
-}
-
-.second-form {
-    display: none; /* Hide the second form by default */
-}
-
-.main-form h2, .second-form h2 {
-    color: blue;
-}
-
-.anonymous {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.anonymous:hover {
-    background-color: #0056b3;
-}
-
 /* Hr  Dashboard */
-
-.head-section {
+.stats-section {
     background-color:rgb(215, 215, 225);
-    display: flex;
+    display:grid;
+    grid-template-columns: auto;
+    width: 100%;
 
 }
 
@@ -111,18 +22,17 @@ button:hover {
     background-color:rgb(228, 228, 238);
     border-radius: 10px;
 }
-.hr-logout{
-    background-color:  rgb(7, 7, 61);
-    color: #fff;
-    border-radius: 18px;
-    cursor: pointer;
-
-}
-
-.hr-logout:hover{
-    background-color: rgb(7, 7, 61);
-}
-
 tr:nth-child(odd){
     background-color:rgb(228, 228, 238);
+}
+.main-form {
+    display: flex;
+    justify-content: center;
+}
+
+#myQueryForm {
+    border-radius: 20px; /* Adjust the value according to your preference */
+    padding: 20px; /* Add padding for better visual appearance */
+    background-color: rgb(228, 228, 238);; /* Set background color */
+    width: 40%; /* Adjust width as needed */ 
 }
