@@ -551,6 +551,9 @@ add_shortcode('employee_shortcode', 'qms_dev_team_employee_shortcode');
 function qms_dev_team_hrdashboard_shortcode() {
 
     if(is_user_logged_in() && current_user_can('editor')) {
+
+        get_header();
+
         ob_start();
 
         global $wpdb;
@@ -630,7 +633,7 @@ function qms_dev_team_hrdashboard_shortcode() {
 
                 <?php
                     // Check if the logout parameter is present in the URL
-                    if (isset($_POST['logout']) && $_POST['logout'] == 1) {
+                    if (isset($_POST['hr-logout']) && $_POST['hr-logout'] == 1) {
                     // Call the WordPress logout function
                     wp_logout();
                 
