@@ -550,9 +550,11 @@ function qms_dev_team_hrdashboard_shortcode() {
 
     if(is_user_logged_in() && current_user_can('editor')) {
 
-        get_header();
+        
 
         ob_start();
+
+        get_header();
 
         global $wpdb;
         $table_name = $wpdb->prefix . 'queryform';
@@ -622,29 +624,21 @@ function qms_dev_team_hrdashboard_shortcode() {
             </div>
     
             <div style=" margin-top: 45px; text-align: center; margin-left: 400px;">
+
                 <form method="post" >
                    <div class="hr-logout" >
-                        <button type="submit" name="hr-logout" class="hr-logout" style="padding: 10px 10px;  border-radius: 18px; border: none; outline: none;" >Logout</button>
+                        <button type="submit" name="hr_logout" class="hr-logout" style="padding: 10px 10px;  border-radius: 18px; border: none; outline: none;" >Logout</button>
                     </div>
                     <br>
                 </form>  
 
                 <?php
-                    // Check if the logout parameter is present in the URL
-                    if (isset($_POST['hr-logout']) && $_POST['hr-logout'] == 1) {
-                    // Call the WordPress logout function
+                
+    
+    
+    
+                if (isset($_POST['hr_logout']) ) {
                     wp_logout();
-                
-                    // Redirect to the login page
-                    wp_redirect(home_url('/wp-login.php'));
-                
-                    // Exit to stop further execution
-                    exit();
-                }
-    
-    
-    
-                if (isset($_POST['logout']) ) {
                     wp_redirect(home_url('/wp-login.php'));
                     exit();
                 }
