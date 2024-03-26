@@ -1203,9 +1203,18 @@ function qms_dev_team_reportsystem_shortcode() {
                         <option value="In Process">In Process</option>
                     </select>
                 </div>
-        
+
+    <label for="start_date" style="color: #000; font-weight: 600;">Starting Date:</label>
+    <div class="start-date">
+    <input type="date" name="start_date" id="start_date" placeholder="Starting Date">
+    </div>
+    <label for="end_date" style="color: #000; font-weight: 600; margin-right: 20px; ">Ending Date:</label>
+    <div class="end-date">
+    <input type="date" name="end_date" id="end_date" placeholder="Ending Date">
+    </div>
+
                 <div>
-                    <button class="reportgenerating" type="submit" style="color: #fff; text-decoration: none; margin-left:150px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Generate Report</button>
+                    <button class="reportgenerating" type="submit" style="color: #fff; text-decoration: none; margin-left:10px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Generate Report</button>
                 </div>
             </div>
             
