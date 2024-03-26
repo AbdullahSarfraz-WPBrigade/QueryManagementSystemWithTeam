@@ -1204,14 +1204,14 @@ function qms_dev_team_reportsystem_shortcode() {
                     </select>
                 </div>
 
-    <label for="start_date" style="color: #000; font-weight: 600;">Starting Date:</label>
-    <div class="start-date">
-    <input type="date" name="start_date" id="start_date" placeholder="Starting Date">
-    </div>
-    <label for="end_date" style="color: #000; font-weight: 600; margin-right: 20px; ">Ending Date:</label>
-    <div class="end-date">
-    <input type="date" name="end_date" id="end_date" placeholder="Ending Date">
-    </div>
+                <label for="start_date" style="color: #000; font-weight: 600;">Starting Date:</label>
+                <div class="start-date">
+                <input type="date" name="start_date" id="start_date" placeholder="Starting Date">
+                </div>
+                <label for="end_date" style="color: #000; font-weight: 600; margin-right: 20px; ">Ending Date:</label>
+                <div class="end-date">
+                <input type="date" name="end_date" id="end_date" placeholder="Ending Date">
+                </div>
 
                 <div>
                     <button class="reportgenerating" type="submit" style="color: #fff; text-decoration: none; margin-left:10px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Generate Report</button>
@@ -1237,6 +1237,10 @@ function qms_dev_team_save_my_custom_form8() {
     $category = $_POST['category'];
     $priority = ($_POST['priority']);
     $status = $_POST['status'];
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date'];
+    $formatted_start_date = date('Y-m-d', strtotime($start_date));
+    $formatted_end_date = date('Y-m-d', strtotime($end_date));
 ?>
     
     <div class="reportclass">
@@ -1246,6 +1250,7 @@ function qms_dev_team_save_my_custom_form8() {
             <tr>
             <th name="name" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Name</th>
             <th name="email" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Email</th>
+            <th name="email" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Description</th>
             <th name="category" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Category</th>
             <th name="status" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Status</th>
             <th name="priority" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Priority</th>
@@ -1274,6 +1279,17 @@ function qms_dev_team_save_my_custom_form8() {
             if (!empty($status)) {
                 $conditions[] = $wpdb->prepare("status = %s", $status);
             }
+            
+
+            if (!empty($start_date) && !empty($end_date)) {
+                $conditions[] = $wpdb->prepare("timestamp BETWEEN %s AND %s", $formatted_start_date, $formatted_end_date);
+            } elseif (!empty($start_date) && empty($end_date)) {            
+                $conditions[] = $wpdb->prepare("timestamp >= %s", $formatted_start_date);
+            } elseif (empty($start_date) && !empty($end_date)) {            
+                $conditions[] = $wpdb->prepare("timestamp <= %s", $formatted_end_date);
+            }
+            
+            
 
             $where_clause = implode(' AND ', $conditions);
 
@@ -1291,15 +1307,18 @@ function qms_dev_team_save_my_custom_form8() {
                 $queryId = $row['id'];
                 $name = $row["name"];
                 $email = $row["email"];
+                $description = $row["description"];
                 $category = $row["category"];
                 $status = $row["status"];
                 $priorty = $row["priorty"];
+
                 $user_type = 'hr';
             
                 echo "
                     <tr>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$name</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$email</th>
+                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$description</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
