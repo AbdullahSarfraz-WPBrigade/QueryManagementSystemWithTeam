@@ -116,8 +116,6 @@ function qms_dev_team_create_table_for_queries_on_activation() {
         priorty VARCHAR(100) NOT NULL DEFAULT 'not defined',
         status VARCHAR(100) NOT NULL DEFAULT 'not defined',
         description TEXT NOT NULL,
-        answers TEXT NOT NULL,
-        file_path VARCHAR(255) NULL  DEFAULT 'none.jpg',
         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY (id)
 	  );";
@@ -625,20 +623,20 @@ function qms_dev_team_hrdashboard_shortcode() {
         $opened_tickets = $wpdb->get_var($opened);
     
         $answer = "";
-        $answered = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE answers = %s", $answer);
+        $answered = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE answers = %s ", $answer);
         $not_answered = $wpdb->get_var($answered);
         $answered_tickets = $total_tickets - $not_answered;
     
         $pend = "Pending";
-        $pending = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE status= %s", $pend);
+        $pending = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE status= %s ", $pend);
         $pending_tickets = $wpdb->get_var($pending);
     
         $decl = "Declined";
-        $decline = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE status= %s", $decl);
+        $decline = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE status= %s ", $decl);
         $decline_tickets = $wpdb->get_var($decline);
     
         $proc = "In Process";
-        $process = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE status= %s", $proc);
+        $process = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE status= %s ", $proc);
         $process_tickets = $wpdb->get_var($process);
     
         ?>
@@ -727,7 +725,7 @@ function qms_dev_team_hrdashboard_shortcode() {
                 $table_name = $wpdb->prefix . 'queryform';
 
                 // Your SQL query here
-                $query = "SELECT * FROM $table_name";
+                $query = "SELECT * FROM $table_name ORDER BY timestamp DESC";
 
                 // Use WP_Query to get the total number of rows
                 $total_rows = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
@@ -1342,7 +1340,7 @@ function qms_dev_team_save_my_custom_form8() {
     <?php
 }
 add_action('admin_post_nopriv_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');
-add_action('admin_post_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');
+add_action('admin_post_qms_dev_team_save_my_custom_form8', 'qms_dev_team_save_my_custom_form8');                                      
 ?>
 
 
