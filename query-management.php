@@ -1157,67 +1157,72 @@ function qms_dev_team_reportsystem_shortcode() {
         ob_start();
         ?>
     
-        <h2>Select options to generate a report</h2><br><br>
+    <h4>Select options to generate a report</h4><br><br>
+        
         <form id="myRegisterationForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
-            <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form8' ); ?>" />
-            <div class="test" style="display:flex; gap:10px;">
-                <div>
-                    <label for="name" style=" font-weight: bold;">Name:</label><br><br>
-                    <input type="text" name="name" id="name" style=" outline: none;"></input><br><br>
-                </div>
-        
-                <div>
-                    <label for="email" style=" font-weight: bold;">Email:</label><br><br>
-                    <input type="email" name="email" id="email" style=" outline: none;"><br><br>
-                </div>
-        
-                <div>
-                    <label for="category" style=" font-weight: bold;">Category:</label><br><br>
-                    <select name="category" id="category" style=" outline: none;">
-                        <option value=""></option>
-                        <option value="General">General</option>
-                        <option value="Technical">Technical</option>
-                        <option value="Hardware">Hardware</option>
-                        <option value="Software">Software</option>
-                    </select><br><br>
-                </div>
-        
-                <div>
-                    <label for="priority" style=" font-weight: bold;">Priority:</label><br><br>
-                    <select name="priority" id="priority" style=" outline: none;">
-                        <option value=""></option>
-                        <option value="High">High</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Low">Low</option>
-                    </select><br><br>
-                </div>
-        
-                <div>
-                    <label for="status" style=" font-weight: bold;">Status:</label><br><br>
-                    <select name="status" id="status" style=" outline: none;">
-                        <option value=""></option>
-                        <option value="Pending">Pending</option>
-                        <option value="Declined">Declined</option>
-                        <option value="In Process">In Process</option>
-                    </select>
+    <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form8' ); ?>" />
+
+    <div style="display:flex; justify-content: center; align-items: center;">
+        <div class="test" style="display:flex; flex-wrap: wrap;  gap:5px; padding: 20px; border-radius: 8px; width:35vw; background-color:#f1f1f1;">
+            <div style="flex-basis: 100%">
+                <label for="name" style="font-weight: bold;">Name:</label><br><br>
+                <input type="text" name="name" id="name" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"><br><br>
+            </div>
+
+            <div style="flex-basis: 100%">
+                <label for="email" style="font-weight: bold;">Email:</label><br><br>
+                <input type="email" name="email" id="email" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"><br><br>
+            </div>
+
+            <div style="display: flex; flex-basis: 100%;">
+                <div style="flex: 1;">
+                    <label for="start_date" style="font-weight: bold;">Starting Date:</label><br><br>
+                    <input type="date" name="start_date" id="start_date" placeholder="Starting Date" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
                 </div>
 
-                <label for="start_date" style="color: #000; font-weight: 600;">Starting Date:</label>
-                <div class="start-date">
-                <input type="date" name="start_date" id="start_date" placeholder="Starting Date">
-                </div>
-                <label for="end_date" style="color: #000; font-weight: 600; margin-right: 20px; ">Ending Date:</label>
-                <div class="end-date">
-                <input type="date" name="end_date" id="end_date" placeholder="Ending Date">
-                </div>
-
-                <div>
-                    <button class="reportgenerating" type="submit" style="color: #fff; text-decoration: none; margin-left:10px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Generate Report</button>
+                <div style="flex: 1; margin-left: 20px;">
+                    <label for="end_date" style="font-weight: bold;">Ending Date:</label><br><br>
+                    <input type="date" name="end_date" id="end_date" placeholder="Ending Date" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
                 </div>
             </div>
-            
-        
-        </form>
+
+            <div style="flex: 1;">
+                <label for="category" style="font-weight: bold; ">Category:</label><br><br>
+                <select name="category" id="category" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+                    <option value=""></option>
+                    <option value="General">General</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Software">Software</option>
+                </select><br><br>
+            </div>
+
+            <div style="flex: 1; margin-left: 16px;">
+                <label for="priority" style="font-weight: bold;">Priority:</label><br><br>
+                <select name="priority" id="priority" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+                    <option value=""></option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select><br><br>
+            </div>
+
+            <div style="flex-basis: 100%;">
+                <label for="status" style="font-weight: bold;">Status:</label><br><br>
+                <select name="status" id="status" style="outline: none; width:48%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+                    <option value=""></option>
+                    <option value="Pending">Pending</option>
+                    <option value="Declined">Declined</option>
+                    <option value="In Process">In Process</option>
+                </select>
+            </div>
+
+            <div style="flex-basis: 100%; text-align: center; margin-top: 20px;">
+                <button class="reportgenerating" type="submit" style="color: #fff; text-decoration: none; padding: 10px 20px; background-color: #007cba; border: none; border-radius: 4px; cursor: pointer;">Generate Report</button>
+            </div>
+        </div>
+    </div>
+</form>
         
             <?php
         return ob_get_clean();
@@ -1227,7 +1232,27 @@ function qms_dev_team_reportsystem_shortcode() {
 
 }
 add_shortcode('reportsystem_shortcode', 'qms_dev_team_reportsystem_shortcode');
+?>
 
+<style>
+    /* Add your custom styles here */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #fff;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    h4 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+</style>
+
+
+<?php
 function qms_dev_team_save_my_custom_form8() {
 
     $name = $_POST['name'];
