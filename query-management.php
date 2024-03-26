@@ -458,17 +458,74 @@ function qms_dev_team_employee_shortcode() {
             </div>
             <br>
     
-            <form id="date-filter-form" method="get" action="<?php echo esc_url( site_url( '/query-page' ) ); ?>">
-                <label for="date" style="color: #000; font-weight: 600; margin-right: 20px;">Starting Date:</label>
-                <input type="date" name="" id="" placholder="Starting Date">
-                <label for="date" style="color: #000; font-weight: 600; margin-right: 20px; margin-left: 50px;">Ending Date:</label>
-                <input type="date" name="" id="" placholder="Ending Date">                           
-        
-                <button type="submit" name="filter_queries" style="color: #fff; text-decoration: none; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none; margin-left: 50px;">Filter</button>
-            </form>
+<form id="date-filter-form" method="POST">
+    <label for="start_date" style="color: #000; font-weight: 600; margin-right: 20px;">Starting Date:</label>
+    <input type="date" name="start_date" id="start_date" placeholder="Starting Date">
+    <label for="end_date" style="color: #000; font-weight: 600; margin-right: 20px; margin-left: 50px;">Ending Date:</label>
+    <input type="date" name="end_date" id="end_date" placeholder="Ending Date">
+    <button class="submit" name="filter_queries" style="color: #fff; text-decoration: none; margin-left:150px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Submit</button>
+</form>
     
-    
-    
+<?php
+// Check if form is submitted and handle the query
+if(isset($_POST['filter_queries'])) {
+    // Sanitize user input to prevent SQL injection
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date'];
+    $formatted_start_date = date('Y-m-d', strtotime($start_date));
+    $formatted_end_date = date('Y-m-d', strtotime($end_date));
+
+
+    ?>
+    <table style="font-size: 18px; font-family: 'oswald', sans-serif; border-collapse: collapse; width: 88%; margin-left: 70px;">
+            <tr>
+            <th name="name" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Name</th>
+            <th name="email" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Email</th>
+            <th name="category" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Category</th>
+            <th name="status" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Status</th>
+            <th name="priority" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Priority</th>
+            <th name="update" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Update</th>
+            </tr>
+
+            <?php
+
+global $wpdb;
+$table_name = $wpdb->prefix . 'queryform';
+$sql = $wpdb->prepare(
+    "SELECT * FROM $table_name WHERE email = %s AND timestamp BETWEEN %s AND %s", $live_user, $formatted_start_date, $formatted_end_date );
+
+            $rows = $wpdb->get_results($sql, ARRAY_A);
+
+            
+
+            foreach ($rows as $row) {
+
+                $queryId = $row['id'];
+                $name = $row["name"];
+                $email = $row["email"];
+                $category = $row["category"];
+                $status = $row["status"];
+                $priorty = $row["priorty"];
+                $user_type = 'hr';
+            
+                echo "
+                    <tr>
+                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$name</th>
+                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$email</th>
+                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
+                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
+                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
+                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>
+                        <a href='/replyform?id=$queryId&type=$user_type'>Update</a>
+                    </tr>
+                ";                  
+            } ?>
+        </table>
+<?php
+
+}else{
+    ?>
+
             <div class="queries-table">
                 <h4 style="font-size: 32px; text-align: center; font-family: 'oswald', sans-serif;">Your Queries</h4>
                 <br>
@@ -531,13 +588,14 @@ function qms_dev_team_employee_shortcode() {
     
             
         </div>
-    
         <?php
+}
+
         return ob_get_clean();
     }else{
         wp_redirect(home_url('/wp-login.php'));
     }
-
+  
     
 }
 
@@ -1143,9 +1201,18 @@ function qms_dev_team_reportsystem_shortcode() {
                         <option value="In Process">In Process</option>
                     </select>
                 </div>
-        
+
+                <label for="start_date" style="color: #000; font-weight: 600;">Starting Date:</label>
+                <div class="start-date">
+                <input type="date" name="start_date" id="start_date" placeholder="Starting Date">
+                </div>
+                <label for="end_date" style="color: #000; font-weight: 600; margin-right: 20px; ">Ending Date:</label>
+                <div class="end-date">
+                <input type="date" name="end_date" id="end_date" placeholder="Ending Date">
+                </div>
+
                 <div>
-                    <button class="reportgenerating" type="submit" style="color: #fff; text-decoration: none; margin-left:150px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Generate Report</button>
+                    <button class="reportgenerating" type="submit" style="color: #fff; text-decoration: none; margin-left:10px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Generate Report</button>
                 </div>
             </div>
             
@@ -1168,6 +1235,10 @@ function qms_dev_team_save_my_custom_form8() {
     $category = $_POST['category'];
     $priority = ($_POST['priority']);
     $status = $_POST['status'];
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date'];
+    $formatted_start_date = date('Y-m-d', strtotime($start_date));
+    $formatted_end_date = date('Y-m-d', strtotime($end_date));
 ?>
     
     <div class="reportclass">
@@ -1177,6 +1248,7 @@ function qms_dev_team_save_my_custom_form8() {
             <tr>
             <th name="name" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Name</th>
             <th name="email" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Email</th>
+            <th name="email" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Description</th>
             <th name="category" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Category</th>
             <th name="status" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Status</th>
             <th name="priority" style=" border: 1px solid skyblue; background-color: #66ccff; color: #fff; padding-top: 5px; padding-right: 2px;">Priority</th>
@@ -1205,6 +1277,17 @@ function qms_dev_team_save_my_custom_form8() {
             if (!empty($status)) {
                 $conditions[] = $wpdb->prepare("status = %s", $status);
             }
+            
+
+            if (!empty($start_date) && !empty($end_date)) {
+                $conditions[] = $wpdb->prepare("timestamp BETWEEN %s AND %s", $formatted_start_date, $formatted_end_date);
+            } elseif (!empty($start_date) && empty($end_date)) {            
+                $conditions[] = $wpdb->prepare("timestamp >= %s", $formatted_start_date);
+            } elseif (empty($start_date) && !empty($end_date)) {            
+                $conditions[] = $wpdb->prepare("timestamp <= %s", $formatted_end_date);
+            }
+            
+            
 
             $where_clause = implode(' AND ', $conditions);
 
@@ -1222,15 +1305,18 @@ function qms_dev_team_save_my_custom_form8() {
                 $queryId = $row['id'];
                 $name = $row["name"];
                 $email = $row["email"];
+                $description = $row["description"];
                 $category = $row["category"];
                 $status = $row["status"];
                 $priorty = $row["priorty"];
+
                 $user_type = 'hr';
             
                 echo "
                     <tr>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$name</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$email</th>
+                    <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$description</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$category</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$status</th>
                     <th style='border: 1px solid skyblue; color: #000; padding-top: 5px; padding-right: 2px;'>$priorty</th>
