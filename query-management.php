@@ -1154,62 +1154,63 @@ function qms_dev_team_reportsystem_shortcode() {
 
     if(is_user_logged_in() && current_user_can('editor')) {
 
+        get_header();
         ob_start();
         ?>
-    
-    <h4>Select options to generate a report</h4><br><br>
+    <br>
+    <h4>Select options to Generate a Report</h4><br>
         
-        <form id="myRegisterationForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
+    <form id="myRegisterationForm" action="<?php echo esc_attr( admin_url('admin-post.php') ); ?>" method="POST">
     <input type="hidden" name="action" value="<?php echo esc_attr( 'qms_dev_team_save_my_custom_form8' ); ?>" />
 
     <div style="display:flex; justify-content: center; align-items: center;">
-        <div class="test" style="display:flex; flex-wrap: wrap;  gap:5px; padding: 20px; border-radius: 8px; width:35vw; background-color:#f1f1f1;">
-            <div style="flex-basis: 100%">
-                <label for="name" style="font-weight: bold;">Name:</label><br><br>
-                <input type="text" name="name" id="name" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"><br><br>
+        <div class="test" style="display:flex; flex-wrap: wrap; gap:5px; padding: 20px; border-radius: 8px; width:35vw; background-color:#f1f1f1;">
+            <div style="flex:1">
+                <label for="name" style="font-weight: bold; margin-bottom: 4px;">Name:</label><br>
+                <input type="text" name="name" id="name" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-bottom: 8px;"><br>
             </div>
 
-            <div style="flex-basis: 100%">
-                <label for="email" style="font-weight: bold;">Email:</label><br><br>
-                <input type="email" name="email" id="email" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"><br><br>
+            <div style="flex: 1; margin-left: 8px;">
+                <label for="email" style="font-weight: bold; margin-bottom: 4px;">Email:</label><br>
+                <input type="email" name="email" id="email" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-bottom: 8px;"><br>
             </div>
 
             <div style="display: flex; flex-basis: 100%;">
                 <div style="flex: 1;">
-                    <label for="start_date" style="font-weight: bold;">Starting Date:</label><br><br>
-                    <input type="date" name="start_date" id="start_date" placeholder="Starting Date" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+                    <label for="start_date" style="font-weight: bold; margin-bottom: 4px;">Starting Date:</label><br>
+                    <input type="date" name="start_date" id="start_date" placeholder="Starting Date" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-bottom: 8px;">
                 </div>
 
-                <div style="flex: 1; margin-left: 20px;">
-                    <label for="end_date" style="font-weight: bold;">Ending Date:</label><br><br>
-                    <input type="date" name="end_date" id="end_date" placeholder="Ending Date" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+                <div style="flex: 1; margin-left: 8px;">
+                    <label for="end_date" style="font-weight: bold; margin-bottom: 4px;">Ending Date:</label><br>
+                    <input type="date" name="end_date" id="end_date" placeholder="Ending Date" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-bottom: 8px;">
                 </div>
             </div>
 
             <div style="flex: 1;">
-                <label for="category" style="font-weight: bold; ">Category:</label><br><br>
-                <select name="category" id="category" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+                <label for="category" style="font-weight: bold; margin-bottom: 4px;">Category:</label><br>
+                <select name="category" id="category" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-bottom: 8px;">
                     <option value=""></option>
                     <option value="General">General</option>
                     <option value="Technical">Technical</option>
                     <option value="Hardware">Hardware</option>
                     <option value="Software">Software</option>
-                </select><br><br>
+                </select><br>
             </div>
 
-            <div style="flex: 1; margin-left: 16px;">
-                <label for="priority" style="font-weight: bold;">Priority:</label><br><br>
-                <select name="priority" id="priority" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+            <div style="flex: 1; margin-left: 8px;">
+                <label for="priority" style="font-weight: bold; margin-bottom: 4px;">Priority:</label><br>
+                <select name="priority" id="priority" style="outline: none; width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-bottom: 8px;">
                     <option value=""></option>
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
                     <option value="Low">Low</option>
-                </select><br><br>
+                </select><br>
             </div>
 
             <div style="flex-basis: 100%;">
-                <label for="status" style="font-weight: bold;">Status:</label><br><br>
-                <select name="status" id="status" style="outline: none; width:48%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+                <label for="status" style="font-weight: bold; margin-bottom: 4px;">Status:</label><br>
+                <select name="status" id="status" style="outline: none; width:48%; border: 1px solid #ccc; border-radius: 4px; padding: 8px; margin-bottom: 8px;">
                     <option value=""></option>
                     <option value="Pending">Pending</option>
                     <option value="Declined">Declined</option>
@@ -1223,6 +1224,7 @@ function qms_dev_team_reportsystem_shortcode() {
         </div>
     </div>
 </form>
+
         
             <?php
         return ob_get_clean();
@@ -1246,8 +1248,9 @@ add_shortcode('reportsystem_shortcode', 'qms_dev_team_reportsystem_shortcode');
 
     h4 {
         font-size: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 4px;
         text-align: center;
+        font-weight: 700;
     }
 </style>
 
