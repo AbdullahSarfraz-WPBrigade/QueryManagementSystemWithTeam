@@ -1,16 +1,38 @@
+
+    /* Add your custom styles here */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #fff;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    h4 {
+        font-size: 20px;
+        margin-bottom: 4px;
+        text-align: center;
+        font-weight: 700;
+    }
+
+
 /* Hr  Dashboard */
+
 .stats-section {
     background-color:rgb(215, 215, 225);
     display:grid;
     grid-template-columns: auto;
     width: 100%;
-
+    justify-content: space-between;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin: 0 15px;
 }
 
 .hr-main {
     display:flex;
-    padding-top: 30px;
-    padding-bottom:30px;
+    padding-top: 10px;
+    padding-bottom:10px;
 }
 
 .total-tickets,
@@ -22,9 +44,11 @@
     background-color:rgb(228, 228, 238);
     border-radius: 10px;
 }
+
 tr:nth-child(odd){
     background-color:rgb(228, 228, 238);
 }
+
 .main-form {
     display: flex;
     justify-content: center;
@@ -34,5 +58,6 @@ tr:nth-child(odd){
     border-radius: 20px; /* Adjust the value according to your preference */
     padding: 20px; /* Add padding for better visual appearance */
     background-color: rgb(228, 228, 238);; /* Set background color */
-    width: 40%; /* Adjust width as needed */ 
+    width: 40%; /* Adjust width as needed */
+    
 }
