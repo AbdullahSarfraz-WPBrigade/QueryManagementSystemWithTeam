@@ -1208,17 +1208,59 @@ function qms_dev_team_reportsystem_shortcode() {
                 <div class="start-date">
                 <input type="date" name="start_date" id="start_date" placeholder="Starting Date">
                 </div>
-                <label for="end_date" style="color: #000; font-weight: 600; margin-right: 20px; ">Ending Date:</label>
+                <label for="end_date" style="color: #000; font-weight: 600; ">Ending Date:</label>
                 <div class="end-date">
                 <input type="date" name="end_date" id="end_date" placeholder="Ending Date">
                 </div>
 
                 <div>
+                <label for="dateInput" style="color: #000; font-weight: 600;">Month:</label>
+                <!-- <input type="text" id="dateInput" data-format="mm/yyyy" placeholder="MM/YYYY"> -->
+                <input type="month" id="dateInput">
+                </div>
+                
+<script>
+            document.getElementById('dateInput').addEventListener('input', function() {
+            var inputValue = this.value.trim();
+            var dateFormat = /^(0[1-9]|1[0-2])\/\d{4}$/; // Regular expression for mm/yyyy format
+
+            if (dateFormat.test(inputValue)) {
+            this.setAttribute('data-date', inputValue);
+            } else {
+            this.removeAttribute('data-date');
+            }
+            });
+</script>
+
+<!-- <div>
+<select name="month" id="month" style="outline: none; width: 100px;" onchange="showQueries()">
+        <option value=""></option>
+        <option value="From">From:Feb 28,2024   To:March 28,2024</option> 
+        <option value="Customized">Customized</option>
+        <input type="date" name="monthly" id="monthly" placholder="Monthly">
+        <option value="Monthly">Monthly</option>
+        <option value="Today">Today</option>
+        <option value="Yesterday">Yesterday</option> 
+        <option value="Tomorrow">Tomorrow</option>
+        <option value="7days">7 days</option>
+        <option value="14days">14 days</option>
+        <option value="1month">1 month</option>
+    </select>
+</div> -->
+
+<!-- <script>
+  document.getElementById("month").addEventListener("change", function() {
+  var selectedValue = this.value;
+  if (selectedValue === "Monthly") {
+    window.location.href = ""; // Link to Monthly page
+  }
+});
+</script> -->
+
+                <div>
                     <button class="reportgenerating" type="submit" style="color: #fff; text-decoration: none; margin-left:10px; margin-top:15px; padding: 5px 10px; background-color: purple; border-radius: 14px; border: none; outline: none;">Generate Report</button>
                 </div>
-            </div>
-            
-        
+            </div>     
         </form>
         
             <?php
